@@ -20,3 +20,9 @@ My first system trading application
   - Provide informations like profits, loss.
  
 * Easy to simulate
+
+# Run demo
+
+``` sh
+> go run main.go <domain> <appkey> <appsecret>
+```
