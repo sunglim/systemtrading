@@ -8,6 +8,7 @@ import (
 var productionUrl string
 var appKey string
 var appSecret string
+var accessToken string
 
 func Initialize(url, applicationKey, applicationSecret string) {
 	productionUrl = url
@@ -18,7 +19,20 @@ func Initialize(url, applicationKey, applicationSecret string) {
 func DemoCallFunction() {
 	fmt.Printf("called %s\n", time.Now().String())
 
-	accessToken := ApiGetAccessToken{}
-	token := accessToken.Call()
+	/*
+		accessToken := ApiGetAccessToken{}
+		token := accessToken.Call()
+	*/
+	accessToken := ApiInqueryPrice{}
+	token := accessToken.Call("005930")
+
 	fmt.Print("AccessToken: " + token)
+}
+
+func getAlwaysValidAccessToken() string {
+	if accessToken == "" {
+		accessToken = ApiGetAccessToken{}.Call()
+	}
+
+	return "Bearer " + accessToken
 }

@@ -7,8 +7,6 @@ import (
 	"net/http"
 )
 
-const postMethod = "POST"
-
 type ApiGetAccessToken struct {
 }
 
