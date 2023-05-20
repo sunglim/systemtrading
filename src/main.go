@@ -5,6 +5,5 @@ import (
 )
 
 func main() {
-	order := order.Order{}
-	order.DailyOrder()
+	order.StrategryBuyEveryDay()
 }

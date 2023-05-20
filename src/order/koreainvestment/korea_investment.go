@@ -31,6 +31,8 @@ func Initialize(url, applicationKey, applicationSecret string, account KoreaInve
 
 	fmt.Printf("Initialize Korea investment trading.\n ProductionUrl[%s], AppKey[%s], AppSecret[%s], AccountInfo[%v]",
 		productionUrl, appKey, appSecret, accountInfo)
+
+	refreshToken()
 }
 
 func setAccessToken() {
