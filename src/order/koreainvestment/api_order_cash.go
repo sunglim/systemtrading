@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"time"
 )
 
 func CreateApiOrderCash(stockCode string) *ApiOrderCash {
@@ -43,6 +44,9 @@ func (api ApiOrderCash) buildRequestBody() *bytes.Buffer {
 type ApiOrdeCashResponse struct {
 	// is success.
 	RtCd string `json:"rt_cd"`
+	Msg1 string `json:"msg1"`
+	// response time
+	ResponseTime time.Time
 }
 
 func (api ApiOrderCash) Call() *ApiOrdeCashResponse {
@@ -71,5 +75,6 @@ func (api ApiOrderCash) Call() *ApiOrdeCashResponse {
 	if derr != nil {
 		panic(derr)
 	}
+	post.ResponseTime = time.Now()
 	return post
 }

@@ -29,7 +29,7 @@ func Initialize(url, applicationKey, applicationSecret string, account KoreaInve
 	appSecret = applicationSecret
 	accountInfo = account
 
-	fmt.Printf("Initialize Korea investment trading.\n ProductionUrl[%s], AppKey[%s], AppSecret[%s], AccountInfo[%v]",
+	fmt.Printf("Initialize Korea investment trading.\n ProductionUrl[%s], AppKey[%s], AppSecret[%s], AccountInfo[%v]\n",
 		productionUrl, appKey, appSecret, accountInfo)
 
 	refreshToken()
@@ -37,7 +37,7 @@ func Initialize(url, applicationKey, applicationSecret string, account KoreaInve
 
 func setAccessToken() {
 	accessToken = ApiGetAccessToken{}.Call().AccessToken
-	fmt.Printf("set token %s: %s\n", time.Now().String(), accessToken)
+	fmt.Printf("\nset token %s: %s\n", time.Now().String(), accessToken)
 }
 
 func refreshToken() {

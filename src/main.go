@@ -4,6 +4,11 @@ import (
 	"sunglim.github.com/sunglim/order"
 )
 
+var exit = make(chan bool)
+
 func main() {
-	order.StrategryBuyEveryDay()
+	go order.StrategryBuyEveryDay()
+
+	// Infinite.
+	<-exit
 }

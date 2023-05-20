@@ -15,7 +15,6 @@ func initializeKoreaInvestment() error {
 	}
 
 	url := os.Args[1]
-	//url := "https://openapivts.koreainvestment.com:29443"
 	appKey := os.Args[2]
 	appSecret := os.Args[3]
 	account := os.Args[4]
