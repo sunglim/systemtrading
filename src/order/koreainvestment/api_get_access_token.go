@@ -7,8 +7,6 @@ import (
 	"net/http"
 )
 
-const postMethod = "POST"
-
 type ApiGetAccessToken struct {
 }
 
@@ -27,10 +25,11 @@ func (api ApiGetAccessToken) buildRequestBody() *bytes.Buffer {
 }
 
 type GetAccessTokenResponse struct {
-	AccessToken string `json:"access_token"`
+	AccessToken             string `json:"access_token"`
+	AccessTokenTokenExpired string `json:"access_token_token_expired"`
 }
 
-func (api ApiGetAccessToken) Call() string {
+func (api ApiGetAccessToken) Call() *GetAccessTokenResponse {
 	r, err := http.NewRequest(postMethod, api.url(), api.buildRequestBody())
 	if err != nil {
 		panic(err)
@@ -49,5 +48,5 @@ func (api ApiGetAccessToken) Call() string {
 	if derr != nil {
 		panic(derr)
 	}
-	return post.AccessToken
+	return post
 }
