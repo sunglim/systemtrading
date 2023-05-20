@@ -1,31 +1,48 @@
 package log
 
 import (
-	"bytes"
-	"fmt"
 	"log"
+	"os"
 )
 
 func CreateLogger() *Logger {
-	var buf bytes.Buffer
-	return &Logger{nativeLogger: log.New(&buf, "logger", log.Lshortfile)}
+	return &Logger{
+		// By default, set as nil.
+		telegramLogger: nil,
+		nativeLogger:   log.New(os.Stdout, "tradingbot", log.Lshortfile)}
 }
 
 type Logger struct {
-	nativeLogger *log.Logger
+	telegramLogger *log.Logger
+	nativeLogger   *log.Logger
 }
 
 func (l Logger) Print(message string) {
 	l.nativeLogger.Print(message)
 }
 
-func (l Logger) MyTest() {
-	var (
-		buf    bytes.Buffer
-		logger = log.New(&buf, "logger: ", log.Lshortfile)
-	)
+var std = CreateLogger()
 
-	logger.Print("Hello, log file!")
+func Default() *Logger {
+	return std
+}
 
-	fmt.Print(&buf)
+func SetTelegramLogger(logger *log.Logger) {
+	std.telegramLogger = logger
+}
+
+func Printf(format string, v ...any) {
+	if std.telegramLogger != nil {
+		std.telegramLogger.Printf(format, v...)
+	}
+	std.nativeLogger.Printf(format, v...)
+}
+
+func Println(v ...any) {
+	if std.telegramLogger != nil {
+		// Add a new line for beaitfify.
+		v = append([]any{"\n"}, v)
+		std.telegramLogger.Println(v...)
+	}
+	std.nativeLogger.Println(v...)
 }
