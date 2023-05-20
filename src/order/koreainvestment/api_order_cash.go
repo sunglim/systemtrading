@@ -7,14 +7,15 @@ import (
 	"net/http"
 )
 
-type ApiGetAccessToken struct {
+type ApiOrdeCash struct {
+	stockCode string
 }
 
-func (api ApiGetAccessToken) url() string {
-	return productionUrl + "/oauth2/tokenP"
+func (api ApiOrdeCash) url() string {
+	return productionUrl + "/uapi/domestic-stock/v1/trading/order-cash"
 }
 
-func (api ApiGetAccessToken) buildRequestBody() *bytes.Buffer {
+func (api ApiOrdeCash) buildRequestBody() *bytes.Buffer {
 	body := []byte(fmt.Sprintf(`{
 		"grant_type": "client_credentials",
 		"appkey": "%s",
@@ -24,17 +25,23 @@ func (api ApiGetAccessToken) buildRequestBody() *bytes.Buffer {
 	return bytes.NewBuffer(body)
 }
 
-type GetAccessTokenResponse struct {
-	AccessToken             string `json:"access_token"`
-	AccessTokenTokenExpired string `json:"access_token_token_expired"`
+type ApiOrdeCashResponse struct {
+	// is success.
+	RtCd string `json:"rt_cd"`
 }
 
-func (api ApiGetAccessToken) Call() *GetAccessTokenResponse {
+func (api ApiOrdeCash) Call() *ApiOrdeCashResponse {
 	r, err := http.NewRequest(postMethod, api.url(), api.buildRequestBody())
 	if err != nil {
 		panic(err)
 	}
 	r.Header.Add("Content-Type", "application/json")
+	r.Header.Add("authorization", getAlwaysValidAccessToken())
+	r.Header.Add("appkey", appKey)
+	r.Header.Add("appsecret", appSecret)
+	// order cash
+	r.Header.Add("tr_id", "TTTC0802U")
+	r.Header.Add("custtype", "P")
 
 	client := &http.Client{}
 	res, err := client.Do(r)
@@ -43,7 +50,7 @@ func (api ApiGetAccessToken) Call() *GetAccessTokenResponse {
 	}
 	defer res.Body.Close()
 
-	post := &GetAccessTokenResponse{}
+	post := &ApiOrdeCashResponse{}
 	derr := json.NewDecoder(res.Body).Decode(post)
 	if derr != nil {
 		panic(derr)

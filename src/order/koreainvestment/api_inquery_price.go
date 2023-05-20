@@ -27,8 +27,13 @@ func (api ApiInqueryPrice) buildRequestBody() *bytes.Buffer {
 	return bytes.NewBuffer(body)
 }
 
+type output struct {
+	StockPrsentPrice string `json:"stck_prpr"`
+}
+
 type InqueryPriceResponse struct {
 	AccessToken string `json:"msg1"`
+	Output      output `json:"output"`
 }
 
 func (api ApiInqueryPrice) Call(iscd string) string {
@@ -54,5 +59,5 @@ func (api ApiInqueryPrice) Call(iscd string) string {
 	if derr != nil {
 		panic(derr)
 	}
-	return post.AccessToken
+	return post.Output.StockPrsentPrice
 }
