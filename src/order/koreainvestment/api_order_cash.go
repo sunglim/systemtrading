@@ -5,9 +5,13 @@ package koreainvestment
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
+	"time"
 )
+
+func CreateApiOrderCash(stockCode string) *ApiOrderCash {
+	return &ApiOrderCash{stockCode: stockCode}
+}
 
 type ApiOrderCash struct {
 	stockCode string
@@ -18,31 +22,42 @@ func (api ApiOrderCash) url() string {
 }
 
 func (api ApiOrderCash) buildRequestBody() *bytes.Buffer {
-	body := []byte(fmt.Sprintf(`{
-		"grant_type": "client_credentials",
-		"CANO": "%s",
-		"ACNT_PRDT_CD": "%s",
-		"PDNO": "%s",
-		"ORD_DVSN": "01",
-		"ORD_QTY": "1",
-		"ORD_UNPR": "0",
-	}`, accountInfo.CANO, accountInfo.ACNT_PRDT_CD, api.stockCode))
-
-	return bytes.NewBuffer(body)
+	body := struct {
+		CANO         string
+		ACNT_PRDT_CD string
+		PDNO         string
+		ORD_DVSN     string
+		ORD_QTY      string
+		ORD_UNPR     string
+	}{
+		CANO:         accountInfo.CANO,
+		ACNT_PRDT_CD: accountInfo.ACNT_PRDT_CD,
+		PDNO:         api.stockCode,
+		ORD_DVSN:     "01",
+		ORD_QTY:      "1",
+		ORD_UNPR:     "0",
+	}
+	b, _ := json.Marshal(body)
+	return bytes.NewBuffer(b)
 }
 
 type ApiOrdeCashResponse struct {
 	// is success.
 	RtCd string `json:"rt_cd"`
+	Msg1 string `json:"msg1"`
+	// response time
+	ResponseTime time.Time
 }
 
 func (api ApiOrderCash) Call() *ApiOrdeCashResponse {
-	r, err := http.NewRequest(postMethod, api.url(), api.buildRequestBody())
+	url := api.url()
+	r, err := http.NewRequest(postMethod, url, api.buildRequestBody())
 	if err != nil {
 		panic(err)
 	}
-	r.Header.Add("Content-Type", "application/json")
-	r.Header.Add("authorization", getAlwaysValidAccessToken())
+	token := getAlwaysValidAccessToken()
+	r.Header.Add("content-type", "application/json")
+	r.Header.Add("authorization", token)
 	r.Header.Add("appkey", appKey)
 	r.Header.Add("appsecret", appSecret)
 	// order cash
@@ -60,5 +75,6 @@ func (api ApiOrderCash) Call() *ApiOrdeCashResponse {
 	if derr != nil {
 		panic(derr)
 	}
+	post.ResponseTime = time.Now()
 	return post
 }
