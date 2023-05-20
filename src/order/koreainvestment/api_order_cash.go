@@ -1,5 +1,7 @@
 package koreainvestment
 
+// Implementation of https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock#L_aade4c72-5fb7-418a-9ff2-254b4d5f0ceb
+
 import (
 	"bytes"
 	"encoding/json"
@@ -7,20 +9,24 @@ import (
 	"net/http"
 )
 
-type ApiOrdeCash struct {
+type ApiOrderCash struct {
 	stockCode string
 }
 
-func (api ApiOrdeCash) url() string {
+func (api ApiOrderCash) url() string {
 	return productionUrl + "/uapi/domestic-stock/v1/trading/order-cash"
 }
 
-func (api ApiOrdeCash) buildRequestBody() *bytes.Buffer {
+func (api ApiOrderCash) buildRequestBody() *bytes.Buffer {
 	body := []byte(fmt.Sprintf(`{
 		"grant_type": "client_credentials",
-		"appkey": "%s",
-		"appsecret": "%s"
-	}`, appKey, appSecret))
+		"CANO": "%s",
+		"ACNT_PRDT_CD": "%s",
+		"PDNO": "%s",
+		"ORD_DVSN": "01",
+		"ORD_QTY": "1",
+		"ORD_UNPR": "0",
+	}`, accountInfo.CANO, accountInfo.ACNT_PRDT_CD, api.stockCode))
 
 	return bytes.NewBuffer(body)
 }
@@ -30,7 +36,7 @@ type ApiOrdeCashResponse struct {
 	RtCd string `json:"rt_cd"`
 }
 
-func (api ApiOrdeCash) Call() *ApiOrdeCashResponse {
+func (api ApiOrderCash) Call() *ApiOrdeCashResponse {
 	r, err := http.NewRequest(postMethod, api.url(), api.buildRequestBody())
 	if err != nil {
 		panic(err)
@@ -41,7 +47,6 @@ func (api ApiOrdeCash) Call() *ApiOrdeCashResponse {
 	r.Header.Add("appsecret", appSecret)
 	// order cash
 	r.Header.Add("tr_id", "TTTC0802U")
-	r.Header.Add("custtype", "P")
 
 	client := &http.Client{}
 	res, err := client.Do(r)

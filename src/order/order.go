@@ -15,6 +15,10 @@ func (order Order) DailyOrder() {
 	url := os.Args[1]
 	appKey := os.Args[2]
 	appSecret := os.Args[3]
-	koreainvestment.Initialize(url, appKey, appSecret)
+	account := os.Args[4]
+	koreainvestment.Initialize(url, appKey, appSecret, koreainvestment.KoreaInvestmentAccount{
+		CANO:         account,
+		ACNT_PRDT_CD: "01",
+	})
 	koreainvestment.DemoCallFunction()
 }
