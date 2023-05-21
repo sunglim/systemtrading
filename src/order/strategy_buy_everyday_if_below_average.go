@@ -10,13 +10,13 @@ import (
 
 // Buy single stock every day at 10 am.
 
-func orderOrderCash(apiOrderCash *koreainvestment.ApiOrderCash) {
+func order(apiOrderCash *koreainvestment.ApiOrderCash) {
 	response := apiOrderCash.Call()
 
-	handleOrderOrderCashResponse(response)
+	handleResponse(response)
 }
 
-func StrategryBuyEveryDay(code, buytime string) {
+func StrategryBuyEveryDayIfBelowAverage(code, buytime string) {
 	err := initializeKoreaInvestment()
 	if err != nil {
 		fmt.Printf("initialization failed %s", err.Error())
@@ -24,18 +24,14 @@ func StrategryBuyEveryDay(code, buytime string) {
 
 	apiOrderCash := koreainvestment.CreateApiOrderCash(code)
 	s := gocron.NewScheduler(time.Now().Location()).Every(1).Day().At(buytime)
-	s.Do(orderOrderCash, apiOrderCash)
+	s.Do(order, apiOrderCash)
 	s.StartAsync()
 }
 
-func handleOrderOrderCashResponse(response *koreainvestment.ApiOrdeCashResponse) {
+func handleResponse(response *koreainvestment.ApiOrdeCashResponse) {
 	if isSuccess(response.RtCd) {
 		fmt.Printf("Call success\n")
 	} else {
 		fmt.Printf("Call fail. error code[%s], msg[%s], responseTime[%v]\n", response.RtCd, response.Msg1, response.ResponseTime)
 	}
-}
-
-func isSuccess(rtcd string) bool {
-	return rtcd == "1"
 }

@@ -5,6 +5,8 @@ import (
 	gologger "log"
 
 	log "sunglim.github.com/sunglim/log"
+	"sunglim.github.com/sunglim/order"
+	"sunglim.github.com/sunglim/order/koreainvestment"
 )
 
 var exit = make(chan bool)
@@ -25,10 +27,19 @@ func main() {
 
 	flag.Parse()
 
-	log.SetTelegramLogger(gologger.New(log.CreateTelegramWriter(telegramToken, telegramChatId), "", gologger.Ldate|gologger.Ltime))
+	if telegramToken != "default" {
+		log.SetTelegramLogger(gologger.New(log.CreateTelegramWriter(telegramToken, telegramChatId), "", gologger.Ldate|gologger.Ltime))
+	}
 	log.Println("Starting after telegram: ", telegramToken)
 
-	//go order.StrategryBuyEveryDay()
+	koreainvestment.Initialize(koreaInvestmentUrl, koreaAppKey, koreaAppSecret, koreainvestment.KoreaInvestmentAccount{
+		CANO:         koreaAccount,
+		ACNT_PRDT_CD: "01",
+	})
+
+	// Buy Samsung eletronics at 10 am.
+	//go order.StrategryBuyEveryDay(koreaexchange.Code삼성전자, "10:00")
+	order.Demo()
 
 	// Infinite.
 	<-exit
