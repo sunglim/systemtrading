@@ -1,10 +1,6 @@
 package koreaexchange
 
 const (
-	Nike     = "adidas"
-	Code삼성전자 = "005930"
+	Code삼성전자   = "005930"
+	Code맥쿼리인프라 = "088980"
 )
-
-func IsEqual(code string) bool {
-	return true
-}

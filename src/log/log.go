@@ -17,8 +17,20 @@ type Logger struct {
 	nativeLogger   *log.Logger
 }
 
-func (l Logger) Print(message string) {
-	l.nativeLogger.Print(message)
+func (l Logger) Printf(format string, v ...any) {
+	l.nativeLogger.Printf(format, v...)
+	if l.telegramLogger != nil {
+		l.telegramLogger.Printf(format, v...)
+	}
+}
+
+func (l Logger) Println(v ...any) {
+	if l.telegramLogger != nil {
+		// Add a new line for beaitfify.
+		v = append([]any{"\n"}, v)
+		std.telegramLogger.Println(v...)
+	}
+	l.nativeLogger.Println(v...)
 }
 
 var std = CreateLogger()

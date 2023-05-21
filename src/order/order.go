@@ -12,5 +12,5 @@ type Order struct {
 func Demo() {
 	balance := koreainvestment.ApiInqueryBalance{}
 	response := balance.Call()
-	fmt.Printf(response.Msg1)
+	fmt.Printf("%v", response)
 }
