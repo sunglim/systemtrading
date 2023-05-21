@@ -36,10 +36,22 @@ func (api ApiInqueryBalance) buildRequestBody() *bytes.Buffer {
 	return bytes.NewBuffer(body)
 }
 
+type ApiInqueryBalanceResponseOutput struct {
+	PdNo     string `json:"pdno"`
+	PrdtName string `json:"prdt_name"`
+	// current stock price
+	Prpr string `json:"prpr"`
+	// Average purchase price
+	PchsAvgPric string `json:"pchs_avg_pric"`
+	// prps - pchsavgpric
+	EvluPflsAmt string `json:"evlu_pfls_amt"`
+}
+
 type ApiInqueryBalanceResponse struct {
 	// is success.
-	RtCd string `json:"rt_cd"`
-	Msg1 string `json:"msg1"`
+	RtCd    string                            `json:"rt_cd"`
+	Msg1    string                            `json:"msg1"`
+	Output1 []ApiInqueryBalanceResponseOutput `json:"output1"`
 	// response time
 	ResponseTime time.Time
 }
