@@ -1,9 +1,18 @@
 # systemtrading
+
 My first system trading application
 
-## Currently supporting brokage
+## Currently supporting brokerage
 
-- Korea investment(한국투자증권)
+- [Korea investment(한국투자증권)](https://apiportal.koreainvestment.com/about) is the only brokerage supporting REST API in Korea.
+
+
+# How to run
+
+``` sh
+> go run main.go -koreainvestment_url=<your korea investment server URL> -koreainvestment_appkey=<your korea invesment app key> \
+     -koreainvestment_appsecret=<your korea invesment app secret> -koreainvestment_account=<your account> -telegram_chat_id=<telegram chat id> -telegram_token=<telegram token>
+```
 
 ## Strategry
 
@@ -51,9 +60,3 @@ See `go run ./src/main -h` explains how to pass the token and chat id.
   - Provide informations like profits, loss.
  
 * Easy to simulate
-
-# Run demo
-
-``` sh
-> go run main.go <domain> <appkey> <appsecret>
-```
