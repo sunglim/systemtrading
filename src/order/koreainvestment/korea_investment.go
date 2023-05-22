@@ -43,7 +43,7 @@ func setAccessToken() {
 func refreshToken() {
 	setAccessToken()
 
-	s := gocron.NewScheduler(time.UTC).Every(1).Hour()
+	s := gocron.NewScheduler(time.UTC).Every(10).Hour()
 	s.Do(setAccessToken)
 	s.StartAsync()
 }
