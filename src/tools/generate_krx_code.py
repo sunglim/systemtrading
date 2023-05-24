@@ -1,18 +1,41 @@
 #!/usr/bin/env python
+# coding: utf8
 
 import os
 import requests
 from html.parser import HTMLParser
 
 class KrxHTMLParser(HTMLParser):
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.isStarted = False
+        self.trStarted = False
+        self.tdInsideofTrStarted = False
+
+        self.tdCount = 0
+
     def handle_starttag(self, tag, attrs):
-        print("Encountered a start tag:", tag)
+        if self.trStarted == True and tag == 'td':
+           self.tdInsideofTrStarted = True
+           self.tdCount = self.tdCount + 1
+
+        if tag == 'tr':
+            self.trStarted = True
 
     def handle_endtag(self, tag):
-        print("Encountered an end tag :", tag)
+        if tag == 'tr':
+            self.trStarted = False
+            self.tdInsideofTrStarted = False
+            self.tdCount = 0
 
     def handle_data(self, data):
-        print("Encountered some data  :", data)
+        if data.strip() == "":
+            return
+
+        if self.tdCount == 1:
+            print("Encountered some data  :", data)
+        if self.tdCount == 2:
+            print("Code[" + data + "]")
 
 class KrxCodeGenerator(object):
 
