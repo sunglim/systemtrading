@@ -21,14 +21,22 @@ func order(logger *log.Logger) {
 		return
 	}
 
+	for _, output := range balanceResponse.Output1 {
+		orderCash(output, logger)
+	}
+
+}
+
+func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOutput, logger *log.Logger) {
 	// Core logic starts.
-	plus_minus, _ := strconv.Atoi(balanceResponse.Output1[0].EvluPflsAmt)
+	plus_minus, _ := strconv.Atoi(balanceResponseOutput.EvluPflsAmt)
 	if plus_minus > 0 {
 		logger.Printf("Didn't buy a stock; plus minus is [%d]", plus_minus)
 		return
 	}
 
-	code := balanceResponse.Output1[0].PdNo
+	code := balanceResponseOutput.PdNo
+
 	apiOrderCash := koreainvestment.CreateApiOrderCash(code)
 	response := apiOrderCash.Call()
 	handleResponse(response)
