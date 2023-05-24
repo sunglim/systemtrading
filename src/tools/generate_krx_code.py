@@ -5,6 +5,24 @@ import os
 import requests
 from html.parser import HTMLParser
 
+class Code(object):
+  """A convenience object for constructing code.
+
+  Logically each object should be a block of code. All methods except |Render|
+  and |IsEmpty| return self.
+  """
+  def __init__(self, indent_size=2, comment_length=80):
+    self._code = []
+
+  def Append(self, code):
+    self._code.append(code)
+    return self
+
+  def Render(self):
+    """Renders Code as a string.
+    """
+    return '\n'.join(self._code)
+
 class KrxHTMLParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
@@ -13,6 +31,10 @@ class KrxHTMLParser(HTMLParser):
         self.tdInsideofTrStarted = False
 
         self.tdCount = 0
+
+        self.listOfCode = []
+        self.name = ""
+        self.code = ""
 
     def handle_starttag(self, tag, attrs):
         if self.trStarted == True and tag == 'td':
@@ -27,17 +49,23 @@ class KrxHTMLParser(HTMLParser):
             self.trStarted = False
             self.tdInsideofTrStarted = False
             self.tdCount = 0
+            self.listOfCode.append([self.name, self.code])
+            self.name = ""
+            self.code = ""
 
     def handle_data(self, data):
         if data.strip() == "":
             return
 
         if self.tdCount == 1:
-            print("Encountered some data  :", data)
+            self.name = data.replace("&", "n").replace("-", "_").replace(" ", "_").replace(".", "")
+           # print("name :", data)
         if self.tdCount == 2:
-            print("Code[" + data + "]")
+            self.code = data
+           # print("Code[" + data + "]")
 
 class KrxCodeGenerator(object):
+
 
   def Generate(self):
     URL = 'http://kind.krx.co.kr/corpgeneral/corpList.do?method=download'
@@ -47,6 +75,19 @@ class KrxCodeGenerator(object):
 
     parser = KrxHTMLParser()
     parser.feed(response.text)
+    #print(parser.listOfCode)
+
+    c = Code()
+    c.Append("package koreaexchange")
+    c.Append("")
+    c.Append("const (")
+    for x in parser.listOfCode:
+      if x[1] == "":
+         continue
+      c.Append("  Code" + x[0] + " = \"" + x[1] +"\"")
+    c.Append(")")
+
+    print(c.Render())
 
 if __name__ == '__main__':
   object = KrxCodeGenerator()
