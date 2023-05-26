@@ -49,9 +49,9 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 	logger.Printf("An order is successfully sent [%v]", response)
 }
 
-func StrategryBuyEveryDayIfBelowAverage(code, buytime string) {
+func StrategryBuyEveryDayIfBelowAverage(buytime string) {
 	logger := log.Default()
-	logger.SetPrefix("Buy stock if average is below")
+	logger.SetPrefix("[Buy if average is below] ")
 
 	logger.Println("start new stragegy")
 
