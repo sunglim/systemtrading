@@ -56,6 +56,10 @@ type ApiInqueryBalanceResponse struct {
 	ResponseTime time.Time
 }
 
+func (response ApiInqueryBalanceResponse) IsSucess() bool {
+	return response.RtCd == "0"
+}
+
 func (api ApiInqueryBalance) Call() *ApiInqueryBalanceResponse {
 	r, err := http.NewRequest("GET", api.url(), api.buildRequestBody())
 	if err != nil {

@@ -28,7 +28,7 @@ func StrategryBuyEveryDay(code, buytime string) {
 	s.StartAsync()
 }
 
-func handleOrderOrderCashResponse(response *koreainvestment.ApiOrdeCashResponse) {
+func handleOrderOrderCashResponse(response *koreainvestment.ApiOrderCashResponse) {
 	if isSuccess(response.RtCd) {
 		fmt.Printf("Call success\n")
 	} else {

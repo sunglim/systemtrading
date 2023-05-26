@@ -13,11 +13,10 @@ import (
 // Buy single stock every day at 10 am.
 
 func order(logger *log.Logger) {
-	logger.Printf("Buy stock below is triggered")
-	apiInqueryBalance := koreainvestment.ApiInqueryBalance{}
-	balanceResponse := apiInqueryBalance.Call()
-	if balanceResponse.RtCd != "0" {
-		logger.Printf("Getting blance failed from the strategry[buy every day if below average]")
+	logger.Printf("Triggered")
+	balanceResponse := koreainvestment.ApiInqueryBalance{}.Call()
+	if !balanceResponse.IsSucess() {
+		logger.Printf("Getting blance failed")
 		return
 	}
 
@@ -31,32 +30,37 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 	// Core logic starts.
 	plus_minus, _ := strconv.Atoi(balanceResponseOutput.EvluPflsAmt)
 	if plus_minus > 0 {
-		logger.Printf("Didn't buy a stock; plus minus is [%d]", plus_minus)
+		logger.Printf("Didn't buy a stock;", "name", balanceResponseOutput.PrdtName,
+			"current price", balanceResponseOutput.Prpr, "average", balanceResponseOutput.PchsAvgPric,
+			"plus-minus", plus_minus)
 		return
 	}
 
 	code := balanceResponseOutput.PdNo
 
-	apiOrderCash := koreainvestment.CreateApiOrderCash(code)
-	response := apiOrderCash.Call()
+	response := koreainvestment.CreateApiOrderCash(code).Call()
 	handleResponse(response)
-	if response.RtCd != "0" {
-		logger.Printf("Getting Api order cash failed from the strategry[buy every day if below average]")
-		logger.Printf("Error message [%s]", response.Msg1)
+	if !response.IsSuccess() {
+		logger.Printf("Getting Api order cash failed from the strategry")
+		logger.Printf("Error[%s]", response.Msg1)
 		return
 	}
 
-	logger.Printf("Order successfully made[%v]", response)
+	logger.Printf("An order is successfully sent [%v]", response)
 }
 
 func StrategryBuyEveryDayIfBelowAverage(code, buytime string) {
-	log.Println("start new stragegy")
+	logger := log.Default()
+	logger.SetPrefix("Buy stock if average is below")
+
+	logger.Println("start new stragegy")
+
 	s := gocron.NewScheduler(time.Now().Location()).Every(1).Day().At(buytime)
-	s.Do(order, log.Default())
+	s.Do(order, logger)
 	s.StartAsync()
 }
 
-func handleResponse(response *koreainvestment.ApiOrdeCashResponse) {
+func handleResponse(response *koreainvestment.ApiOrderCashResponse) {
 	if isSuccess(response.RtCd) {
 		fmt.Printf("Call success\n")
 	} else {
