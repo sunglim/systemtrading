@@ -33,6 +33,13 @@ func (l Logger) Println(v ...any) {
 	l.nativeLogger.Println(v...)
 }
 
+func (l Logger) SetPrefix(prefix string) {
+	if l.telegramLogger != nil {
+		l.telegramLogger.SetPrefix(prefix)
+	}
+	l.nativeLogger.SetPrefix(prefix)
+}
+
 var std = CreateLogger()
 
 func Default() *Logger {

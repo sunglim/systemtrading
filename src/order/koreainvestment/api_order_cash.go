@@ -41,7 +41,7 @@ func (api ApiOrderCash) buildRequestBody() *bytes.Buffer {
 	return bytes.NewBuffer(b)
 }
 
-type ApiOrdeCashResponse struct {
+type ApiOrderCashResponse struct {
 	// is success.
 	RtCd string `json:"rt_cd"`
 	Msg1 string `json:"msg1"`
@@ -49,7 +49,11 @@ type ApiOrdeCashResponse struct {
 	ResponseTime time.Time
 }
 
-func (api ApiOrderCash) Call() *ApiOrdeCashResponse {
+func (response ApiOrderCashResponse) IsSuccess() bool {
+	return response.RtCd == "0"
+}
+
+func (api ApiOrderCash) Call() *ApiOrderCashResponse {
 	url := api.url()
 	r, err := http.NewRequest(postMethod, url, api.buildRequestBody())
 	if err != nil {
@@ -70,7 +74,7 @@ func (api ApiOrderCash) Call() *ApiOrdeCashResponse {
 	}
 	defer res.Body.Close()
 
-	post := &ApiOrdeCashResponse{}
+	post := &ApiOrderCashResponse{}
 	derr := json.NewDecoder(res.Body).Decode(post)
 	if derr != nil {
 		panic(derr)

@@ -4,7 +4,6 @@ import (
 	"flag"
 	gologger "log"
 
-	"sunglim.github.com/sunglim/koreaexchange"
 	log "sunglim.github.com/sunglim/log"
 	"sunglim.github.com/sunglim/order"
 	"sunglim.github.com/sunglim/order/koreainvestment"
@@ -29,7 +28,11 @@ func main() {
 	flag.Parse()
 
 	if telegramToken != "default" {
-		log.SetTelegramLogger(gologger.New(log.CreateTelegramWriter(telegramToken, telegramChatId), "", gologger.Ldate|gologger.Ltime))
+		telegramWriter := log.CreateTelegramWriter(telegramToken, telegramChatId)
+		// nil when offline.
+		if telegramWriter != nil {
+			log.SetTelegramLogger(gologger.New(telegramWriter, "", gologger.Ldate|gologger.Ltime))
+		}
 	}
 	log.Println("Starting after telegram: ", telegramToken)
 
@@ -41,7 +44,8 @@ func main() {
 	// Buy Samsung eletronics at 10 am.
 	//go order.StrategryBuyEveryDay(koreaexchange.Code삼성전자, "10:00")
 
-	go order.StrategryBuyEveryDayIfBelowAverage(koreaexchange.Code맥쿼리인프라, "15:00")
+	go order.StrategryBuyEveryDayIfBelowAverage("22:07")
+	//go order.StrategryBuyEveryDayIfBelowAverage(koreaexchange.Code맥쿼리인프라, "15:00")
 	//order.Demo()
 
 	// Infinite.
