@@ -30,7 +30,7 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 	// Core logic starts.
 	plus_minus, _ := strconv.Atoi(balanceResponseOutput.EvluPflsAmt)
 	if plus_minus > 0 {
-		logger.Printf("Didn't buy a stock;", "name", balanceResponseOutput.PrdtName,
+		logger.Println("Didn't buy a stock;", "name", balanceResponseOutput.PrdtName,
 			"current price", balanceResponseOutput.Prpr, "average", balanceResponseOutput.PchsAvgPric,
 			"plus-minus", plus_minus)
 		return
