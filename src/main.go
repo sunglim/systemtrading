@@ -4,6 +4,7 @@ import (
 	"flag"
 	gologger "log"
 
+	"sunglim.github.com/sunglim/koreaexchange"
 	log "sunglim.github.com/sunglim/log"
 	"sunglim.github.com/sunglim/order"
 	"sunglim.github.com/sunglim/order/koreainvestment"
@@ -44,9 +45,13 @@ func main() {
 	// Buy Samsung eletronics at 10 am.
 	//go order.StrategryBuyEveryDay(koreaexchange.Code삼성전자, "10:00")
 
-	//go order.StrategryBuyEveryDayIfBelowAverage("22:07")
-	//go order.StrategryBuyEveryDayIfBelowAverage(koreaexchange.Code맥쿼리인프라, "15:00")
-	order.Demo()
+	go order.StrategryBuyEveryDayIfBelowAverage("15:07")
+
+	go order.StrategryBuyEveryDayIfLowerThan("15:00", []order.CodePrice{{
+		Code:  koreaexchange.Code농심홀딩스,
+		Price: 67500,
+	}})
+	//order.Demo()
 
 	// Infinite.
 	<-exit
