@@ -9,8 +9,6 @@ import (
 	"net/http"
 )
 
-const postMethod = "POST"
-
 type ApiInqueryPrice struct {
 }
 
