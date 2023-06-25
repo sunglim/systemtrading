@@ -44,9 +44,9 @@ func main() {
 	// Buy Samsung eletronics at 10 am.
 	//go order.StrategryBuyEveryDay(koreaexchange.Code삼성전자, "10:00")
 
-	go order.StrategryBuyEveryDayIfBelowAverage("22:07")
+	//go order.StrategryBuyEveryDayIfBelowAverage("22:07")
 	//go order.StrategryBuyEveryDayIfBelowAverage(koreaexchange.Code맥쿼리인프라, "15:00")
-	//order.Demo()
+	order.Demo()
 
 	// Infinite.
 	<-exit
