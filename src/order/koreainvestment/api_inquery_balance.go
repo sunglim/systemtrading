@@ -61,7 +61,7 @@ func (response ApiInqueryBalanceResponse) IsSucess() bool {
 }
 
 func (api ApiInqueryBalance) Call() *ApiInqueryBalanceResponse {
-	r, err := http.NewRequest("GET", api.url(), api.buildRequestBody())
+	r, err := http.NewRequest(http.MethodGet, api.url(), api.buildRequestBody())
 	if err != nil {
 		panic(err)
 	}

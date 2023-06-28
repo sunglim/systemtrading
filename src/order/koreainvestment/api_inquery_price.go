@@ -9,8 +9,6 @@ import (
 	"net/http"
 )
 
-const postMethod = "POST"
-
 type ApiInqueryPrice struct {
 }
 
@@ -39,7 +37,7 @@ type InqueryPriceResponse struct {
 }
 
 func (api ApiInqueryPrice) Call(iscd string) string {
-	r, err := http.NewRequest(postMethod, api.url(iscd), api.buildRequestBody())
+	r, err := http.NewRequest(http.MethodPost, api.url(iscd), api.buildRequestBody())
 	if err != nil {
 		panic(err)
 	}

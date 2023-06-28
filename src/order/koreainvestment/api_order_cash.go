@@ -55,7 +55,7 @@ func (response ApiOrderCashResponse) IsSuccess() bool {
 
 func (api ApiOrderCash) Call() *ApiOrderCashResponse {
 	url := api.url()
-	r, err := http.NewRequest(postMethod, url, api.buildRequestBody())
+	r, err := http.NewRequest(http.MethodPost, url, api.buildRequestBody())
 	if err != nil {
 		panic(err)
 	}

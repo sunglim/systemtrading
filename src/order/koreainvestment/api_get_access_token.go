@@ -8,6 +8,7 @@ import (
 )
 
 type ApiGetAccessToken struct {
+	_ string
 }
 
 func (api ApiGetAccessToken) url() string {
@@ -30,14 +31,15 @@ type GetAccessTokenResponse struct {
 }
 
 func (api ApiGetAccessToken) Call() *GetAccessTokenResponse {
-	r, err := http.NewRequest(postMethod, api.url(), api.buildRequestBody())
+	request, err := http.NewRequest(http.MethodPost, api.url(), api.buildRequestBody())
 	if err != nil {
+		// TODO: Return error instead of panic.
 		panic(err)
 	}
-	r.Header.Add("Content-Type", "application/json")
+	request.Header.Add("Content-Type", "application/json")
 
-	client := &http.Client{}
-	res, err := client.Do(r)
+	client := http.Client{}
+	res, err := client.Do(request)
 	if err != nil {
 		panic(err)
 	}
