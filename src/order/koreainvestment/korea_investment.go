@@ -20,7 +20,7 @@ var productionUrl string
 var appKey string
 var appSecret string
 
-var accessToken string
+var accessToken token
 var accountInfo KoreaInvestmentAccount
 
 func Initialize(url, applicationKey, applicationSecret string, account KoreaInvestmentAccount) {
@@ -36,7 +36,7 @@ func Initialize(url, applicationKey, applicationSecret string, account KoreaInve
 }
 
 func setAccessToken() {
-	accessToken = ApiGetAccessToken{}.Call().AccessToken
+	accessToken.access_token = ApiGetAccessToken{}.Call().AccessToken
 	fmt.Printf("\nset token %s: %s\n", time.Now().String(), accessToken)
 }
 
@@ -66,6 +66,10 @@ func DemoCallFunction() {
 	time.Sleep(time.Hour)
 }
 
-func getAlwaysValidAccessToken() string {
-	return "Bearer " + accessToken
+type token struct {
+	access_token string
+}
+
+func (t token) BearerToken() string {
+	return "Bearer " + t.access_token
 }

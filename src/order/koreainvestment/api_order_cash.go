@@ -59,9 +59,8 @@ func (api ApiOrderCash) Call() *ApiOrderCashResponse {
 	if err != nil {
 		panic(err)
 	}
-	token := getAlwaysValidAccessToken()
 	r.Header.Add("content-type", "application/json")
-	r.Header.Add("authorization", token)
+	r.Header.Add("authorization", accessToken.BearerToken())
 	r.Header.Add("appkey", appKey)
 	r.Header.Add("appsecret", appSecret)
 	// order cash

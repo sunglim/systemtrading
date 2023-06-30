@@ -42,7 +42,7 @@ func (api ApiInqueryPrice) Call(iscd string) string {
 		panic(err)
 	}
 	r.Header.Add("Content-Type", "application/json")
-	r.Header.Add("authorization", getAlwaysValidAccessToken())
+	r.Header.Add("authorization", accessToken.BearerToken())
 	r.Header.Add("appkey", appKey)
 	r.Header.Add("appsecret", appSecret)
 	r.Header.Add("tr_id", "FHKST01010100")
