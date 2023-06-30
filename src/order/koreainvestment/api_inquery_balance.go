@@ -66,8 +66,7 @@ func (api ApiInqueryBalance) Call() *ApiInqueryBalanceResponse {
 		panic(err)
 	}
 	r.Header.Add("Content-Type", "application/json")
-	validToekn := getAlwaysValidAccessToken()
-	r.Header.Add("authorization", validToekn)
+	r.Header.Add("authorization", accessToken.BearerToken())
 	r.Header.Add("appkey", appKey)
 	r.Header.Add("appsecret", appSecret)
 	r.Header.Add("tr_id", "TTTC8434R")
