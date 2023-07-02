@@ -71,21 +71,36 @@ class KrxCodeGenerator(object):
     URL = 'http://kind.krx.co.kr/corpgeneral/corpList.do?method=download'
     response = requests.get(URL)
     response.encoding = response.apparent_encoding
-    #print(response.text)
 
     parser = KrxHTMLParser()
     parser.feed(response.text)
-    #print(parser.listOfCode)
+
+    # Build a name - code dictionary to remove duplicates.
+    nameCodeMap = {}
+    for x in parser.listOfCode:
+        nameCodeMap[x[0]] = x[1]
 
     c = Code()
     c.Append("package koreaexchange")
     c.Append("")
     c.Append("const (")
-    for x in parser.listOfCode:
-      if x[1] == "":
+    for code, name in nameCodeMap.items():
+      if name == "":
          continue
-      c.Append("  Code" + x[0] + " = \"" + x[1] +"\"")
+      c.Append("  Code" + code + " = \"" + name +"\"")
     c.Append(")")
+
+    c.Append("")
+    c.Append("func CodeToName(code string) string {")
+    c.Append("    var codeMap = map[string]string{")
+    for code, name in nameCodeMap.items():
+      if name == "":
+         continue
+      c.Append("        \"" + name + "\": \"" + code + "\",")
+    c.Append("    }")
+    c.Append("    name, _ := codeMap[\"code\"]")
+    c.Append("    return name")
+    c.Append("}")
 
     print(c.Render())
 
