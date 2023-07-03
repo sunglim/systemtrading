@@ -14,6 +14,12 @@ My first system trading application
      -koreainvestment_appsecret=<your korea invesment app secret> -koreainvestment_account=<your account> -telegram_chat_id=<telegram chat id> -telegram_token=<telegram token>
 ```
 
+## Korea Investment API
+
+`/pkg/koreainvestment` is a package to call Korea investment APIs. Some old codes still live in `/order/koreainvestment`, but new code should reside in pkg directory.
+
+Ideally, I have a plan to make this package a fully generated code.
+
 ## Strategry
 
 A strategy matches to an trading algorithm.
