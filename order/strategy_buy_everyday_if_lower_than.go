@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/go-co-op/gocron"
-	"sunglim.github.com/sunglim/log"
-	"sunglim.github.com/sunglim/order/koreainvestment"
+	"sunglim.github.com/sunglim/systemtrading/log"
+	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
 )
 
 // Buy a stock if the price is lower than ...
