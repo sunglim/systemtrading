@@ -1,7 +1,7 @@
 package koreainvestment
 
 import (
-	"fmt"
+	"log"
 	"time"
 
 	gocron "github.com/go-co-op/gocron"
@@ -24,14 +24,19 @@ type KoreaInvestment struct {
 	user             Credential
 	token            string
 	tokenRefreshHour int
+	logger           *log.Logger
 }
 
 func (f *KoreaInvestment) GetCredential() Credential {
 	return f.user
 }
 
-func NewKoreaInvestment(user Credential) *KoreaInvestment {
-	return &KoreaInvestment{user: user, token: "", tokenRefreshHour: 10}
+func (f *KoreaInvestment) GetBearerAccessToken() string {
+	return "Bearer " + f.token
+}
+
+func NewKoreaInvestment(user Credential, logger *log.Logger) *KoreaInvestment {
+	return &KoreaInvestment{user: user, token: "", tokenRefreshHour: 10, logger: logger}
 }
 
 func NewKoreaInvestmentTokenRefresh(user Credential, tokenRefreshHour int) *KoreaInvestment {
@@ -41,7 +46,7 @@ func NewKoreaInvestmentTokenRefresh(user Credential, tokenRefreshHour int) *Kore
 func (f *KoreaInvestment) setAccessToken() bool {
 	response := NewApiGetAccessToken(f.user).Call()
 	f.token = response.AccessToken
-	fmt.Printf("\nset token %s: %s\n", time.Now().String(), f.token)
+	f.logger.Printf("\nset token %s: %s\n", time.Now().String(), f.token)
 
 	return true
 }

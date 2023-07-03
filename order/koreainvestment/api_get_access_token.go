@@ -20,7 +20,7 @@ func (api ApiGetAccessToken) buildRequestBody() *bytes.Buffer {
 		"grant_type": "client_credentials",
 		"appkey": "%s",
 		"appsecret": "%s"
-	}`, appKey, appSecret))
+	}`, ki_package.GetCredential().AppKey, ki_package.GetCredential().AppSecret))
 
 	return bytes.NewBuffer(body)
 }
