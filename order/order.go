@@ -1,16 +1,24 @@
 package order
 
-import (
-	"fmt"
+type Equity = string
 
-	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
+// Order types
+const (
+	PriceLimit  string = "pricelimit"
+	MarketPrice string = "marketprice"
 )
 
 type Order struct {
+	Equity
+	KrwPrice  int
+	Amount    int
+	OrderType string
 }
 
-func Demo() {
-	balance := koreainvestment.ApiInqueryBalance{}
-	response := balance.Call()
-	fmt.Printf("%v", response)
+func NewMakretPriceOrder(equaty Equity, amount int) *Order {
+	return &Order{Equity: equaty, Amount: amount, OrderType: MarketPrice}
+}
+
+func NewPriceLimitOrder(equaty Equity, amount int, krwPrice int) *Order {
+	return &Order{Equity: equaty, KrwPrice: krwPrice, Amount: amount, OrderType: PriceLimit}
 }
