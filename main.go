@@ -4,7 +4,7 @@ import (
 	"flag"
 	gologger "log"
 
-	"sunglim.github.com/sunglim/koreaexchange"
+	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	log "sunglim.github.com/sunglim/log"
 	"sunglim.github.com/sunglim/order"
 	"sunglim.github.com/sunglim/order/koreainvestment"
@@ -48,7 +48,7 @@ func main() {
 	go order.StrategryBuyEveryDayIfBelowAverage("15:07")
 
 	go order.StrategryBuyEveryDayIfLowerThan("15:00", []order.CodePrice{{
-		Code:  koreaexchange.Code농심홀딩스,
+		Code:  krxcode.Code농심홀딩스,
 		Price: 67500,
 	}})
 	//order.Demo()
