@@ -8,19 +8,27 @@ import (
 )
 
 type ApiGetAccessToken struct {
-	_ string
+	credential Credential
 }
 
-func (api ApiGetAccessToken) url() string {
-	return productionUrl + "/oauth2/tokenP"
+func NewApiGetAccessToken(credential Credential) *ApiGetAccessToken {
+	return &ApiGetAccessToken{credential}
 }
 
-func (api ApiGetAccessToken) buildRequestBody() *bytes.Buffer {
+func (api *ApiGetAccessToken) url() string {
+	url := "/oauth2/tokenP"
+	if forTesting {
+		return TestingDomain + url
+	}
+	return ProductionDomain + url
+}
+
+func (api *ApiGetAccessToken) buildRequestBody() *bytes.Buffer {
 	body := []byte(fmt.Sprintf(`{
 		"grant_type": "client_credentials",
 		"appkey": "%s",
 		"appsecret": "%s"
-	}`, ki_package.GetCredential().AppKey, ki_package.GetCredential().AppSecret))
+	}`, api.credential.AppKey, api.credential.AppSecret))
 
 	return bytes.NewBuffer(body)
 }
@@ -30,7 +38,7 @@ type GetAccessTokenResponse struct {
 	AccessTokenTokenExpired string `json:"access_token_token_expired"`
 }
 
-func (api ApiGetAccessToken) Call() *GetAccessTokenResponse {
+func (api *ApiGetAccessToken) Call() *GetAccessTokenResponse {
 	request, err := http.NewRequest(http.MethodPost, api.url(), api.buildRequestBody())
 	if err != nil {
 		// TODO: Return error instead of panic.

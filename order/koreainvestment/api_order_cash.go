@@ -60,9 +60,9 @@ func (api ApiOrderCash) Call() *ApiOrderCashResponse {
 		panic(err)
 	}
 	r.Header.Add("content-type", "application/json")
-	r.Header.Add("authorization", accessToken.BearerToken())
-	r.Header.Add("appkey", appKey)
-	r.Header.Add("appsecret", appSecret)
+	r.Header.Add("authorization", ki_package.GetBearerAccessToken())
+	r.Header.Add("appkey", ki_package.GetCredential().AppKey)
+	r.Header.Add("appsecret", ki_package.GetCredential().AppSecret)
 	// order cash
 	r.Header.Add("tr_id", "TTTC0802U")
 

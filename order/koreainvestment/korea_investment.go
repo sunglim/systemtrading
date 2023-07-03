@@ -2,10 +2,11 @@ package koreainvestment
 
 import (
 	"fmt"
+	"log"
 	"time"
 
-	gocron "github.com/go-co-op/gocron"
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
+	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 type KoreaInvestmentAccount struct {
@@ -17,40 +18,27 @@ type KoreaInvestmentAccount struct {
 }
 
 var productionUrl string
-var appKey string
-var appSecret string
 
-var accessToken token
+// var accessToken token
 var accountInfo KoreaInvestmentAccount
+
+var ki_package *ki.KoreaInvestment
 
 func Initialize(url, applicationKey, applicationSecret string, account KoreaInvestmentAccount) {
 	productionUrl = url
-	appKey = applicationKey
-	appSecret = applicationSecret
 	accountInfo = account
 
+	ki_package = ki.NewKoreaInvestment(ki.Credential{
+		AppKey:    applicationKey,
+		AppSecret: applicationSecret,
+	}, log.Default())
+	ki_package.InitializeToken()
+
 	fmt.Printf("Initialize Korea investment trading.\n ProductionUrl[%s], AppKey[%s], AppSecret[%s], AccountInfo[%v]\n",
-		productionUrl, appKey, appSecret, accountInfo)
-
-	refreshToken()
-}
-
-func setAccessToken() {
-	accessToken.access_token = ApiGetAccessToken{}.Call().AccessToken
-	fmt.Printf("\nset token %s: %s\n", time.Now().String(), accessToken)
-}
-
-func refreshToken() {
-	setAccessToken()
-
-	s := gocron.NewScheduler(time.UTC).Every(10).Hour()
-	s.Do(setAccessToken)
-	s.StartAsync()
+		productionUrl, ki_package.GetCredential().AppKey, ki_package.GetCredential().AppSecret, accountInfo)
 }
 
 func DemoCallFunction() {
-	refreshToken()
-
 	/*
 		price := ApiInqueryPrice{}
 		sam := price.Call(koreaexchange.Code삼성전자)
@@ -64,12 +52,4 @@ func DemoCallFunction() {
 	fmt.Printf("price: %s \n", sam)
 
 	time.Sleep(time.Hour)
-}
-
-type token struct {
-	access_token string
-}
-
-func (t token) BearerToken() string {
-	return "Bearer " + t.access_token
 }
