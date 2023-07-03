@@ -45,12 +45,14 @@ func main() {
 	// Buy Samsung eletronics at 10 am.
 	//go order.StrategryBuyEveryDay(koreaexchange.Code삼성전자, "10:00")
 
-	go order.StrategryBuyEveryDayIfBelowAverage("15:07")
+	go order.StrategryBuyEveryDayIfBelowAverage("03:07")
 
-	go order.StrategryBuyEveryDayIfLowerThan("15:00", []order.CodePrice{{
+	go order.StrategryBuyEveryDayIfLowerThan("03:00", []order.CodePrice{
+	{
 		Code:  koreaexchange.Code농심홀딩스,
-		Price: 67500,
-	}})
+		Price: 67000,
+	},
+})
 	//order.Demo()
 
 	// Infinite.
