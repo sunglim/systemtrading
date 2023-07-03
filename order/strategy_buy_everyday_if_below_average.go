@@ -46,7 +46,7 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 		return
 	}
 
-	logger.Printf("An order is successfully sent [%v]", response)
+	logger.Println("An order is successfully sent", "name", balanceResponseOutput.PrdtName, "response", response.Msg1)
 }
 
 func StrategryBuyEveryDayIfBelowAverage(buytime string) {
