@@ -48,11 +48,23 @@ func main() {
 	go order.StrategryBuyEveryDayIfBelowAverage("03:07")
 
 	go order.StrategryBuyEveryDayIfLowerThan("03:00", []order.CodePrice{
-	{
-		Code:  koreaexchange.Code농심홀딩스,
-		Price: 67000,
-	},
-})
+		{
+			Code:  koreaexchange.Code농심홀딩스,
+			Price: 67000,
+		},
+		{
+			Code:  koreaexchange.CodeBNK금융지주,
+			Price: 6900,
+		},
+		{
+			Code:  koreaexchange.Code기업은행,
+			Price: 10300,
+		},
+		{
+			Code:  koreaexchange.CodeDGB금융지주,
+			Price: 7300,
+		},
+	})
 	//order.Demo()
 
 	// Infinite.
