@@ -3,7 +3,7 @@ package order
 import (
 	"fmt"
 
-	"sunglim.github.com/sunglim/order/koreainvestment"
+	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
 )
 
 type Order struct {

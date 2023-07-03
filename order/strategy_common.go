@@ -3,7 +3,7 @@ package order
 import (
 	"os"
 
-	"sunglim.github.com/sunglim/order/koreainvestment"
+	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
 )
 
 // Initialize Korea inestment settings

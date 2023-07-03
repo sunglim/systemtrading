@@ -5,9 +5,9 @@ import (
 	gologger "log"
 
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
-	log "sunglim.github.com/sunglim/log"
-	"sunglim.github.com/sunglim/order"
-	"sunglim.github.com/sunglim/order/koreainvestment"
+	log "sunglim.github.com/sunglim/systemtrading/log"
+	"sunglim.github.com/sunglim/systemtrading/order"
+	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
 )
 
 var exit = make(chan bool)
