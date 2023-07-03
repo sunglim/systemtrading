@@ -6,15 +6,22 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"time"
 )
 
+// deprecated
 func CreateApiOrderCash(stockCode string) *ApiOrderCash {
-	return &ApiOrderCash{stockCode: stockCode}
+	return &ApiOrderCash{stockCode: stockCode, amount: 1}
+}
+
+func NewApiOrderCash(stockCode string, amount int) *ApiOrderCash {
+	return &ApiOrderCash{stockCode: stockCode, amount: amount}
 }
 
 type ApiOrderCash struct {
 	stockCode string
+	amount    int
 }
 
 func (api ApiOrderCash) url() string {
@@ -34,7 +41,7 @@ func (api ApiOrderCash) buildRequestBody() *bytes.Buffer {
 		ACNT_PRDT_CD: accountInfo.ACNT_PRDT_CD,
 		PDNO:         api.stockCode,
 		ORD_DVSN:     "01",
-		ORD_QTY:      "1",
+		ORD_QTY:      strconv.Itoa(api.amount),
 		ORD_UNPR:     "0",
 	}
 	b, _ := json.Marshal(body)

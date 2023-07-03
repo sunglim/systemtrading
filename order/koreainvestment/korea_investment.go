@@ -9,22 +9,14 @@ import (
 	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
-type KoreaInvestmentAccount struct {
-	// 종합계좌번호; 계좌번호 체계(8-2)의 앞 8자리
-	CANO string
-
-	// 계좌상품코드; 계좌번호 체계(8-2)의 뒤 2자리
-	ACNT_PRDT_CD string
-}
-
 var productionUrl string
 
 // var accessToken token
-var accountInfo KoreaInvestmentAccount
+var accountInfo ki.KoreaInvestmentAccount
 
 var ki_package *ki.KoreaInvestment
 
-func Initialize(url, applicationKey, applicationSecret string, account KoreaInvestmentAccount) {
+func Initialize(url, applicationKey, applicationSecret string, account ki.KoreaInvestmentAccount) {
 	productionUrl = url
 	accountInfo = account
 

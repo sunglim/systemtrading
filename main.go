@@ -8,6 +8,7 @@ import (
 	log "sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 var exit = make(chan bool)
@@ -37,7 +38,7 @@ func main() {
 	}
 	log.Println("Starting after telegram: ", telegramToken)
 
-	koreainvestment.Initialize(koreaInvestmentUrl, koreaAppKey, koreaAppSecret, koreainvestment.KoreaInvestmentAccount{
+	koreainvestment.Initialize(koreaInvestmentUrl, koreaAppKey, koreaAppSecret, ki.KoreaInvestmentAccount{
 		CANO:         koreaAccount,
 		ACNT_PRDT_CD: "01",
 	})

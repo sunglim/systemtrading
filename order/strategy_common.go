@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 // Initialize Korea inestment settings
@@ -14,7 +15,7 @@ func initializeKoreaInvestment() error {
 	appSecret := os.Args[3]
 	account := os.Args[4]
 
-	koreainvestment.Initialize(url, appKey, appSecret, koreainvestment.KoreaInvestmentAccount{
+	koreainvestment.Initialize(url, appKey, appSecret, ki.KoreaInvestmentAccount{
 		CANO:         account,
 		ACNT_PRDT_CD: "01",
 	})
