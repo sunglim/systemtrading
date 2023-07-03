@@ -5,7 +5,7 @@ import (
 	"time"
 
 	gocron "github.com/go-co-op/gocron"
-	"sunglim.github.com/sunglim/koreaexchange"
+	krxcode "github.com/sunglim/go-korea-stock-code/code"
 )
 
 type KoreaInvestmentAccount struct {
@@ -56,7 +56,7 @@ func DemoCallFunction() {
 		sam := price.Call(koreaexchange.Code삼성전자)
 	*/
 	api := ApiOrderCash{
-		stockCode: koreaexchange.Code삼성전자,
+		stockCode: krxcode.Code삼성전자,
 	}
 	response := api.Call()
 	sam := response.RtCd
