@@ -7,6 +7,7 @@ import (
 	"github.com/go-co-op/gocron"
 	"sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 // Buy a stock if the price is lower than ...
@@ -25,7 +26,10 @@ func buyLowerOrder(codePrices []CodePrice, logger *log.Logger) {
 }
 
 func BuyLowerOrderCash(code string, logger *log.Logger) {
-	response := koreainvestment.CreateApiOrderCash(code).Call()
+	response := ki.CreateApiOrderCash(code,
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
+		koreainvestment.GetDefaultAccount(),
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken()).Call()
 	handleResponse(response)
 	if !response.IsSuccess() {
 		logger.Printf("Getting Api order cash failed from the strategry")

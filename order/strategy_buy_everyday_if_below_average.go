@@ -9,6 +9,7 @@ import (
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	"sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 // Buy single stock every day at 10 am.
@@ -39,13 +40,22 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 
 	code := balanceResponseOutput.PdNo
 
-	var api = koreainvestment.CreateApiOrderCash(code)
+	var api = ki.CreateApiOrderCash(code,
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
+		koreainvestment.GetDefaultAccount(),
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 	// Hack :(
 	if code == krxcode.CodeDGB금융지주 {
-		api = koreainvestment.NewApiOrderCash(code, 3)
+		api = ki.NewApiOrderCash(code, 3,
+			koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
+			koreainvestment.GetDefaultAccount(),
+			koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 	}
 	if code == krxcode.CodeBNK금융지주 {
-		api = koreainvestment.NewApiOrderCash(code, 3)
+		api = ki.NewApiOrderCash(code, 3,
+			koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
+			koreainvestment.GetDefaultAccount(),
+			koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 	}
 	response := api.Call()
 	handleResponse(response)
@@ -69,7 +79,7 @@ func StrategryBuyEveryDayIfBelowAverage(buytime string) {
 	s.StartAsync()
 }
 
-func handleResponse(response *koreainvestment.ApiOrderCashResponse) {
+func handleResponse(response *ki.ApiOrderCashResponse) {
 	if isSuccess(response.RtCd) {
 		fmt.Printf("Call success\n")
 	} else {
