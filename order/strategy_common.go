@@ -2,7 +2,9 @@ package order
 
 import (
 	"os"
+	"time"
 
+	"github.com/go-co-op/gocron"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
 	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
@@ -21,4 +23,9 @@ func initializeKoreaInvestment() error {
 	})
 
 	return nil
+}
+
+func NewSeoulScheduler() *gocron.Scheduler {
+	location, _ := time.LoadLocation("Asia/Seoul")
+	return gocron.NewScheduler(location)
 }
