@@ -11,21 +11,36 @@ import (
 )
 
 // deprecated
-func CreateApiOrderCash(stockCode string) *ApiOrderCash {
-	return &ApiOrderCash{stockCode: stockCode, amount: 1}
+func CreateApiOrderCash(stockCode string, credential Credential,
+	accountInfo KoreaInvestmentAccount, accessToken string) *ApiOrderCash {
+	return &ApiOrderCash{
+		stockCode: stockCode, amount: 1,
+		KoreaInvestmentAccount: accountInfo,
+		Credential:             credential,
+		accessToken:            accessToken,
+	}
 }
 
-func NewApiOrderCash(stockCode string, amount int) *ApiOrderCash {
-	return &ApiOrderCash{stockCode: stockCode, amount: amount}
+func NewApiOrderCash(stockCode string, amount int, credential Credential,
+	accountInfo KoreaInvestmentAccount, accessToken string) *ApiOrderCash {
+	return &ApiOrderCash{
+		stockCode: stockCode, amount: 1,
+		KoreaInvestmentAccount: accountInfo,
+		Credential:             credential,
+		accessToken:            accessToken,
+	}
 }
 
 type ApiOrderCash struct {
 	stockCode string
 	amount    int
+	KoreaInvestmentAccount
+	Credential
+	accessToken string
 }
 
 func (api ApiOrderCash) url() string {
-	return productionUrl + "/uapi/domestic-stock/v1/trading/order-cash"
+	return ProductionDomain + "/uapi/domestic-stock/v1/trading/order-cash"
 }
 
 func (api ApiOrderCash) buildRequestBody() *bytes.Buffer {
@@ -37,8 +52,8 @@ func (api ApiOrderCash) buildRequestBody() *bytes.Buffer {
 		ORD_QTY      string
 		ORD_UNPR     string
 	}{
-		CANO:         accountInfo.CANO,
-		ACNT_PRDT_CD: accountInfo.ACNT_PRDT_CD,
+		CANO:         api.KoreaInvestmentAccount.CANO,
+		ACNT_PRDT_CD: api.KoreaInvestmentAccount.ACNT_PRDT_CD,
 		PDNO:         api.stockCode,
 		ORD_DVSN:     "01",
 		ORD_QTY:      strconv.Itoa(api.amount),
@@ -67,9 +82,9 @@ func (api ApiOrderCash) Call() *ApiOrderCashResponse {
 		panic(err)
 	}
 	r.Header.Add("content-type", "application/json")
-	r.Header.Add("authorization", ki_package.GetBearerAccessToken())
-	r.Header.Add("appkey", ki_package.GetCredential().AppKey)
-	r.Header.Add("appsecret", ki_package.GetCredential().AppSecret)
+	r.Header.Add("authorization", api.accessToken)
+	r.Header.Add("appkey", api.Credential.AppKey)
+	r.Header.Add("appsecret", api.Credential.AppSecret)
 	// order cash
 	r.Header.Add("tr_id", "TTTC0802U")
 

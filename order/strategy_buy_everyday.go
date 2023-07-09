@@ -6,11 +6,12 @@ import (
 
 	"github.com/go-co-op/gocron"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 // Buy single stock every day at 10 am.
 
-func orderOrderCash(apiOrderCash *koreainvestment.ApiOrderCash) {
+func orderOrderCash(apiOrderCash *ki.ApiOrderCash) {
 	response := apiOrderCash.Call()
 
 	handleOrderOrderCashResponse(response)
@@ -22,13 +23,17 @@ func StrategryBuyEveryDay(code, buytime string) {
 		fmt.Printf("initialization failed %s", err.Error())
 	}
 
-	apiOrderCash := koreainvestment.CreateApiOrderCash(code)
+	apiOrderCash := ki.CreateApiOrderCash(code,
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
+		koreainvestment.GetDefaultAccount(),
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
+
 	s := gocron.NewScheduler(time.Now().Location()).Every(1).Day().At(buytime)
 	s.Do(orderOrderCash, apiOrderCash)
 	s.StartAsync()
 }
 
-func handleOrderOrderCashResponse(response *koreainvestment.ApiOrderCashResponse) {
+func handleOrderOrderCashResponse(response *ki.ApiOrderCashResponse) {
 	if isSuccess(response.RtCd) {
 		fmt.Printf("Call success\n")
 	} else {
