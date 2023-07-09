@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-co-op/gocron"
+	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	"sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
 )
@@ -14,11 +15,13 @@ import (
 func buyLowerOrder(codePrices []CodePrice, logger *log.Logger) {
 	for _, codePrice := range codePrices {
 		currentPrice := koreainvestment.ApiInqueryPrice{}.Call(codePrice.Code)
-		priceInt, _ := strconv.Atoi(currentPrice)
-		if priceInt > codePrice.Price {
+		currentPriceInt, _ := strconv.Atoi(currentPrice)
+		if currentPriceInt > codePrice.Price {
 			continue
 		}
-		logger.Println("buy lower than is triggerd", "code", codePrice.Code, "orderprice", priceInt)
+
+		logger.Println("name", krxcode.CodeToName(codePrice.Code), "orderPrice",
+			codePrice.Price, "currentPrice", currentPriceInt)
 		BuyLowerOrderCash(codePrice.Code, logger)
 	}
 
@@ -28,8 +31,7 @@ func BuyLowerOrderCash(code string, logger *log.Logger) {
 	response := koreainvestment.CreateApiOrderCash(code).Call()
 	handleResponse(response)
 	if !response.IsSuccess() {
-		logger.Printf("Getting Api order cash failed from the strategry")
-		logger.Printf("Error[%s]", response.Msg1)
+		logger.Printf("orde failed with error[%s]", response.Msg1)
 		return
 	}
 
