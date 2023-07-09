@@ -21,7 +21,7 @@ func buyLowerOrder(codePrices []CodePrice, logger *log.Logger) {
 		}
 
 		logger.Println("name", krxcode.CodeToName(codePrice.Code), "orderPrice",
-			currentPriceInt, "currentPrice", codePrice.Price)
+			codePrice.Price, "currentPrice", currentPriceInt)
 		BuyLowerOrderCash(codePrice.Code, logger)
 	}
 
