@@ -22,7 +22,7 @@ func (api ApiInqueryPrice) buildRequestBody() *bytes.Buffer {
 		"grant_type": "client_credentials",
 		"appkey": "%s",
 		"appsecret": "%s"
-	}`, appKey, appSecret))
+	}`, ki_package.GetCredential().AppKey, ki_package.GetCredential().AppSecret))
 
 	return bytes.NewBuffer(body)
 }
@@ -42,9 +42,9 @@ func (api ApiInqueryPrice) Call(iscd string) string {
 		panic(err)
 	}
 	r.Header.Add("Content-Type", "application/json")
-	r.Header.Add("authorization", accessToken.BearerToken())
-	r.Header.Add("appkey", appKey)
-	r.Header.Add("appsecret", appSecret)
+	r.Header.Add("authorization", ki_package.GetBearerAccessToken())
+	r.Header.Add("appkey", ki_package.GetCredential().AppKey)
+	r.Header.Add("appsecret", ki_package.GetCredential().AppSecret)
 	r.Header.Add("tr_id", "FHKST01010100")
 
 	client := &http.Client{}

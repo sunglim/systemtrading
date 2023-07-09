@@ -6,8 +6,9 @@ import (
 	"time"
 
 	"github.com/go-co-op/gocron"
-	"sunglim.github.com/sunglim/log"
-	"sunglim.github.com/sunglim/order/koreainvestment"
+	krxcode "github.com/sunglim/go-korea-stock-code/code"
+	"sunglim.github.com/sunglim/systemtrading/log"
+	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
 )
 
 // Buy single stock every day at 10 am.
@@ -38,7 +39,15 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 
 	code := balanceResponseOutput.PdNo
 
-	response := koreainvestment.CreateApiOrderCash(code).Call()
+	var api = koreainvestment.CreateApiOrderCash(code)
+	// Hack :(
+	if code == krxcode.CodeDGB금융지주 {
+		api = koreainvestment.NewApiOrderCash(code, 3)
+	}
+	if code == krxcode.CodeBNK금융지주 {
+		api = koreainvestment.NewApiOrderCash(code, 3)
+	}
+	response := api.Call()
 	handleResponse(response)
 	if !response.IsSuccess() {
 		logger.Printf("Getting Api order cash failed from the strategry")
@@ -46,7 +55,7 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 		return
 	}
 
-	logger.Printf("An order is successfully sent [%v]", response)
+	logger.Println("An order is successfully sent", "name", balanceResponseOutput.PrdtName, "response", response.Msg1)
 }
 
 func StrategryBuyEveryDayIfBelowAverage(buytime string) {

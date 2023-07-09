@@ -4,10 +4,11 @@ import (
 	"flag"
 	gologger "log"
 
-	"sunglim.github.com/sunglim/koreaexchange"
-	log "sunglim.github.com/sunglim/log"
-	"sunglim.github.com/sunglim/order"
-	"sunglim.github.com/sunglim/order/koreainvestment"
+	krxcode "github.com/sunglim/go-korea-stock-code/code"
+	log "sunglim.github.com/sunglim/systemtrading/log"
+	"sunglim.github.com/sunglim/systemtrading/order"
+	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 var exit = make(chan bool)
@@ -37,7 +38,7 @@ func main() {
 	}
 	log.Println("Starting after telegram: ", telegramToken)
 
-	koreainvestment.Initialize(koreaInvestmentUrl, koreaAppKey, koreaAppSecret, koreainvestment.KoreaInvestmentAccount{
+	koreainvestment.Initialize(koreaInvestmentUrl, koreaAppKey, koreaAppSecret, ki.KoreaInvestmentAccount{
 		CANO:         koreaAccount,
 		ACNT_PRDT_CD: "01",
 	})
@@ -49,19 +50,19 @@ func main() {
 
 	go order.StrategryBuyEveryDayIfLowerThan("03:00", []order.CodePrice{
 		{
-			Code:  koreaexchange.Code농심홀딩스,
+			Code:  krxcode.Code농심홀딩스,
 			Price: 67000,
 		},
 		{
-			Code:  koreaexchange.CodeBNK금융지주,
+			Code:  krxcode.CodeBNK금융지주,
 			Price: 6900,
 		},
 		{
-			Code:  koreaexchange.Code기업은행,
+			Code:  krxcode.Code기업은행,
 			Price: 10300,
 		},
 		{
-			Code:  koreaexchange.CodeDGB금융지주,
+			Code:  krxcode.CodeDGB금융지주,
 			Price: 7300,
 		},
 	})
