@@ -55,15 +55,15 @@ func main() {
 		},
 		{
 			Code:  krxcode.CodeBNK금융지주,
-			Price: 6900,
+			Price: 6800,
 		},
 		{
 			Code:  krxcode.Code기업은행,
-			Price: 10300,
+			Price: 9600,
 		},
 		{
 			Code:  krxcode.CodeDGB금융지주,
-			Price: 7300,
+			Price: 7000,
 		},
 	})
 	//order.Demo()
