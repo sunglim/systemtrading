@@ -2,9 +2,7 @@ package order
 
 import (
 	"strconv"
-	"time"
 
-	"github.com/go-co-op/gocron"
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	"sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
@@ -49,7 +47,7 @@ func StrategryBuyEveryDayIfLowerThan(buytime string, codePrices []CodePrice) {
 
 	logger.Println("start new stragegy")
 
-	s := gocron.NewScheduler(time.Now().Location()).Every(1).Day().At(buytime)
+	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(buyLowerOrder, codePrices, logger)
 	s.StartAsync()
 }
