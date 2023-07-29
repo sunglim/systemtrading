@@ -68,6 +68,16 @@ func main() {
 			Price:    11400,
 			Quantity: 2,
 		},
+		{
+			Code:     krxcode.Code신한지주,
+			Price:    30000,
+			Quantity: 1,
+		},
+		{
+			Code:     "102110", // tiger 200
+			Price:    29000,
+			Quantity: 10,
+		},
 	})
 	//order.Demo()
 
