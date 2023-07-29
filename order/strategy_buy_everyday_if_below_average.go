@@ -3,9 +3,7 @@ package order
 import (
 	"fmt"
 	"strconv"
-	"time"
 
-	"github.com/go-co-op/gocron"
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	"sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
@@ -74,7 +72,7 @@ func StrategryBuyEveryDayIfBelowAverage(buytime string) {
 
 	logger.Println("start new stragegy")
 
-	s := gocron.NewScheduler(time.Now().Location()).Every(1).Day().At(buytime)
+	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(order, logger)
 	s.StartAsync()
 }
