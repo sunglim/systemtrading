@@ -6,6 +6,7 @@ import (
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	"sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 // Buy a stock if the price is lower than ...
@@ -26,7 +27,10 @@ func buyLowerOrder(codePrices []StrategryOrder, logger *log.Logger) {
 }
 
 func BuyLowerOrderCash(code StrategryOrder, logger *log.Logger) {
-	response := koreainvestment.CreateApiOrderCash(code.Code).Call()
+	response := ki.CreateApiOrderCash(code.Code,
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
+		koreainvestment.GetDefaultAccount(),
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken()).Call()
 	handleResponse(response)
 	if !response.IsSuccess() {
 		logger.Printf("orde failed with error[%s]", response.Msg1)
