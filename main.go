@@ -46,7 +46,19 @@ func main() {
 	// Buy Samsung eletronics at 10 am.
 	//go order.StrategryBuyEveryDay(koreaexchange.Code삼성전자, "10:00")
 
-	go order.StrategryBuyEveryDayIfBelowAverage("22:56")
+	go order.StrategryBuyEveryDayIfBelowAverage("22:56", []order.StrategryBuyEveryDayIfBelowOrder{{
+		Code:     krxcode.Code농심홀딩스,
+		Quantity: 1,
+	},
+		{
+			Code:     krxcode.CodeBNK금융지주,
+			Quantity: 3,
+		},
+		{
+			Code:     krxcode.CodeDGB금융지주,
+			Quantity: 3,
+		},
+	})
 
 	go order.StrategryBuyEveryDayIfLowerThan("15:00", []order.StrategryOrder{{
 		Code:     krxcode.Code농심홀딩스,
