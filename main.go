@@ -50,10 +50,6 @@ func main() {
 
 	go order.StrategryBuyEveryDayIfLowerThan("12:00", []order.CodePrice{
 		{
-			Code:  krxcode.Code농심홀딩스,
-			Price: 65000,
-		},
-		{
 			Code:  krxcode.CodeBNK금융지주,
 			Price: 6500,
 		},
@@ -64,6 +60,10 @@ func main() {
 		{
 			Code:  krxcode.CodeDGB금융지주,
 			Price: 7000,
+		},
+		{
+			Code:  krxcode.Code우리금융지주,
+			Price: 11600,
 		},
 	})
 	//order.Demo()
