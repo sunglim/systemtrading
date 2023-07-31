@@ -130,6 +130,11 @@ func main() {
 			Price:    29000,
 			Quantity: 10,
 		},
+		{
+			Code:     "148020", // kbstar 200
+			Price:    29000,
+			Quantity: 10,
+		},
 	})
 	//order.Demo()
 
