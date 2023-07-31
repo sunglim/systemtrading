@@ -1,7 +1,6 @@
 package order
 
 import (
-	"fmt"
 	"strconv"
 
 	"sunglim.github.com/sunglim/systemtrading/log"
@@ -51,7 +50,6 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 		koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 	response := api.Call()
-	handleResponse(response)
 	if !response.IsSuccess() {
 		logger.Printf("Getting Api order cash failed from the strategry")
 		logger.Printf("Error[%s]", response.Msg1)
@@ -75,12 +73,4 @@ func StrategryBuyEveryDayIfBelowAverage(buytime string, codeQuantity []Strategry
 	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(order, codeQuantity, logger)
 	s.StartAsync()
-}
-
-func handleResponse(response *ki.ApiOrderCashResponse) {
-	if isSuccess(response.RtCd) {
-		fmt.Printf("Call success\n")
-		return
-	}
-	fmt.Printf("Call fail. error code[%s], msg[%s], responseTime[%v]\n", response.RtCd, response.Msg1, response.ResponseTime)
 }

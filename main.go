@@ -136,6 +136,17 @@ func main() {
 			Quantity: 10,
 		},
 	})
+
+	sellStrategry := order.NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage("12:00", []order.StrategryBuyEveryDayIfBelowOrder{{}})
+	go sellStrategry.Start()
+
+	/*
+		go order.StrategrySellEveryDayIfHigherThan("15:00", []order.StrategryOrder{{
+			Code:     krxcode.Code농심홀딩스,
+			Price:    67500,
+			Quantity: 1,
+		}})
+	*/
 	//order.Demo()
 
 	// Infinite.
