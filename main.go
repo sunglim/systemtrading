@@ -58,9 +58,43 @@ func main() {
 			Code:     krxcode.CodeDGB금융지주,
 			Quantity: 3,
 		},
+		{
+			Code:     "102110", // tiger 200
+			Quantity: 10,
+		},
 	})
 
 	go order.StrategryBuyEveryDayIfLowerThan("12:00", []order.StrategryOrder{
+		{
+			Code:     krxcode.Code부국증권,
+			Price:    17500,
+			Quantity: 2,
+		},
+		{
+			Code:     krxcode.CodeKB금융,
+			Price:    48000,
+			Quantity: 1,
+		},
+		{
+			Code:     krxcode.Code삼성카드,
+			Price:    28400,
+			Quantity: 1,
+		},
+		{
+			Code:     krxcode.Code삼성전자,
+			Price:    60000,
+			Quantity: 1,
+		},
+		{
+			Code:     krxcode.Code신한지주,
+			Price:    30000,
+			Quantity: 1,
+		},
+		{
+			Code:     krxcode.Code하나금융지주,
+			Price:    33000,
+			Quantity: 1,
+		},
 		{
 			Code:     krxcode.CodeBNK금융지주,
 			Price:    6500,
@@ -84,6 +118,11 @@ func main() {
 		{
 			Code:     krxcode.Code신한지주,
 			Price:    30000,
+			Quantity: 1,
+		},
+		{
+			Code:     krxcode.Code케이티앤지,
+			Price:    80000,
 			Quantity: 1,
 		},
 		{
