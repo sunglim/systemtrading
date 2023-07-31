@@ -46,7 +46,7 @@ func main() {
 	// Buy Samsung eletronics at 10 am.
 	//go order.StrategryBuyEveryDay(koreaexchange.Code삼성전자, "10:00")
 
-	go order.StrategryBuyEveryDayIfBelowAverage("22:56", []order.StrategryBuyEveryDayIfBelowOrder{{
+	go order.StrategryBuyEveryDayIfBelowAverage("10:00", []order.StrategryBuyEveryDayIfBelowOrder{{
 		Code:     krxcode.Code농심홀딩스,
 		Quantity: 1,
 	},
@@ -60,11 +60,22 @@ func main() {
 		},
 	})
 
-	go order.StrategryBuyEveryDayIfLowerThan("15:00", []order.StrategryOrder{{
+	go order.StrategryBuyEveryDayIfLowerThan("11:00", []order.StrategryOrder{{
 		Code:     krxcode.Code농심홀딩스,
 		Price:    67500,
 		Quantity: 1,
 	}})
+
+	sellStrategry := order.NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage("12:00", []order.StrategryBuyEveryDayIfBelowOrder{{}})
+	go sellStrategry.Start()
+
+	/*
+		go order.StrategrySellEveryDayIfHigherThan("15:00", []order.StrategryOrder{{
+			Code:     krxcode.Code농심홀딩스,
+			Price:    67500,
+			Quantity: 1,
+		}})
+	*/
 	//order.Demo()
 
 	// Infinite.
