@@ -8,6 +8,31 @@ import (
 	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
+// Buy single stock every day at 10 am.
+
+func order(codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
+	logger.Printf("Triggered")
+	balanceResponse := koreainvestment.ApiInqueryBalance{}.Call()
+	if !balanceResponse.IsSucess() {
+		logger.Printf("Getting blance failed")
+		return
+	}
+
+	for _, output := range balanceResponse.Output1 {
+		orderCash(output, codeQuantity, logger)
+	}
+
+}
+
+func getQuantityByCode(code string, codeQuantity []StrategryBuyEveryDayIfBelowOrder) int {
+	for _, single := range codeQuantity {
+		if code == single.Code {
+			return single.Quantity
+		}
+	}
+	return 1
+}
+
 func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOutput, codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
 	// Core logic starts.
 	plus_minus, _ := strconv.Atoi(balanceResponseOutput.EvluPflsAmt)
