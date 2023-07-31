@@ -137,7 +137,7 @@ func main() {
 		},
 	})
 
-	sellStrategry := order.NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage("12:00", []order.StrategryBuyEveryDayIfBelowOrder{{}})
+	sellStrategry := order.NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage("13:00", []order.StrategryBuyEveryDayIfBelowOrder{{}})
 	go sellStrategry.Start()
 
 	/*
