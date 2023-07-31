@@ -36,6 +36,37 @@ func (api ApiInqueryBalance) buildRequestBody() *bytes.Buffer {
 	return bytes.NewBuffer(body)
 }
 
+/*
+{
+            "pdno": "001750",
+            "prdt_name": "한양증권",
+            "trad_dvsn_name": "현금",
+            "bfdy_buy_qty": "0",
+            "bfdy_sll_qty": "0",
+            "thdt_buyqty": "0",
+            "thdt_sll_qty": "19",
+            "hldg_qty": "1",
+            "ord_psbl_qty": "1",
+            "pchs_avg_pric": "8671.0000",
+            "pchs_amt": "8671",
+            "prpr": "8820",
+            "evlu_amt": "8820",
+            "evlu_pfls_amt": "149",
+            "evlu_pfls_rt": "1.71",
+            "evlu_erng_rt": "0.00000000",
+            "loan_dt": "",
+            "loan_amt": "0",
+            "stln_slng_chgs": "0",
+            "expd_dt": "",
+            "fltt_rt": "1.37931034",
+            "bfdy_cprs_icdc": "120",
+            "item_mgna_rt_name": "100%",
+            "grta_rt_name": "불가",
+            "sbst_pric": "6090",
+            "stck_loan_unpr": "0.0000"
+        },
+*/
+
 type ApiInqueryBalanceResponseOutput struct {
 	PdNo     string `json:"pdno"`
 	PrdtName string `json:"prdt_name"`
@@ -45,6 +76,8 @@ type ApiInqueryBalanceResponseOutput struct {
 	PchsAvgPric string `json:"pchs_avg_pric"`
 	// prps - pchsavgpric
 	EvluPflsAmt string `json:"evlu_pfls_amt"`
+	// The percentage of gain
+	EvluPflsRt string `json:"evlu_pfls_rt"`
 }
 
 type ApiInqueryBalanceResponse struct {
