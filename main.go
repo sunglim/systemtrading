@@ -51,6 +51,10 @@ func main() {
 			Quantity: 1,
 		},
 		{
+			Code:     krxcode.Code우리금융지주,
+			Quantity: 2,
+		},
+		{
 			Code:     krxcode.CodeBNK금융지주,
 			Quantity: 3,
 		},
@@ -60,7 +64,7 @@ func main() {
 		},
 		{
 			Code:     "102110", // tiger 200
-			Quantity: 10,
+			Quantity: 2,
 		},
 	})
 

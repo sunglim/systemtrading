@@ -78,6 +78,7 @@ type ApiInqueryBalanceResponseOutput struct {
 	EvluPflsAmt string `json:"evlu_pfls_amt"`
 	// The percentage of gain
 	EvluPflsRt string `json:"evlu_pfls_rt"`
+	HldgQty string `json:"hldg_qty"`
 }
 
 type ApiInqueryBalanceResponse struct {

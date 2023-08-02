@@ -51,9 +51,9 @@ func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) orderCash(ba
 	// atoi X
 	gain_percentage, _ := strconv.ParseFloat(balanceResponseOutput.EvluPflsRt, 32)
 	if gain_percentage < 3.0 {
-		logger.Println("Didn't sell a stock;", "name", balanceResponseOutput.PrdtName,
-			"current price", balanceResponseOutput.Prpr, "average", balanceResponseOutput.PchsAvgPric,
-			"gain_percentage", gain_percentage)
+	//#logger.Println("Didn't sell a stock;", "name", balanceResponseOutput.PrdtName,
+        //			"current price", balanceResponseOutput.Prpr, "average", balanceResponseOutput.PchsAvgPric,
+        //			"gain_percentage", gain_percentage)
 		return
 	}
 
