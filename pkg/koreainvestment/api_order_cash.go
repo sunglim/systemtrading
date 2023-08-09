@@ -24,7 +24,7 @@ func CreateApiOrderCash(stockCode string, credential Credential,
 func NewApiOrderCash(stockCode string, amount int, credential Credential,
 	accountInfo KoreaInvestmentAccount, accessToken string) *ApiOrderCash {
 	return &ApiOrderCash{
-		stockCode: stockCode, amount: 1,
+		stockCode: stockCode, amount: amount,
 		KoreaInvestmentAccount: accountInfo,
 		Credential:             credential,
 		accessToken:            accessToken,

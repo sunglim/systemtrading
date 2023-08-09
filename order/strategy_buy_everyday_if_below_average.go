@@ -35,6 +35,12 @@ func getQuantityByCode(code string, codeQuantity []StrategryBuyEveryDayIfBelowOr
 
 func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOutput, codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
 	// Core logic starts.
+	logger.Println("quantity:" + balanceResponseOutput.HldgQty)
+	quantity, _ := strconv.Atoi(balanceResponseOutput.HldgQty)
+	if quantity <= 0 {
+		return
+	}
+
 	plus_minus, _ := strconv.Atoi(balanceResponseOutput.EvluPflsAmt)
 	if plus_minus > 0 {
 		logger.Println("Didn't buy a stock;", "name", balanceResponseOutput.PrdtName,
@@ -44,8 +50,9 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 	}
 
 	code := balanceResponseOutput.PdNo
+	orderAmount := getQuantityByCode(code, codeQuantity)
 
-	api := ki.NewApiOrderCash(code, getQuantityByCode(code, codeQuantity),
+	api := ki.NewApiOrderCash(code, orderAmount,
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
 		koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())

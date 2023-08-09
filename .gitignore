@@ -2,3 +2,4 @@
 .vscode
 src/.DS_Store
 src/__debug_bin
+run.sh
