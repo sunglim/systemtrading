@@ -5,6 +5,7 @@ import (
 	"time"
 
 	gocron "github.com/go-co-op/gocron"
+	"sunglim.github.com/sunglim/systemtrading/internal/metrics"
 )
 
 var forTesting bool
@@ -52,6 +53,7 @@ func NewKoreaInvestmentTokenRefresh(user Credential, tokenRefreshHour int) *Kore
 }
 
 func (f *KoreaInvestment) setAccessToken() bool {
+	metrics.IssueToken()
 	response := NewApiGetAccessToken(f.user).Call()
 	f.token = response.AccessToken
 	f.logger.Printf("\nset token %s: %s\n", time.Now().String(), f.token)

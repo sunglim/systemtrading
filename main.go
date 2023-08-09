@@ -4,10 +4,8 @@ import (
 	"flag"
 	gologger "log"
 
-	"net/http"
-
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
+	"sunglim.github.com/sunglim/systemtrading/internal/metrics"
 	log "sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
@@ -15,6 +13,10 @@ import (
 )
 
 var exit = make(chan bool)
+
+func init() {
+	metrics.RegisterMetrics()
+}
 
 func main() {
 	var telegramChatId int64
@@ -146,6 +148,9 @@ func main() {
 	sellStrategry := order.NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage("13:01", []order.StrategryBuyEveryDayIfBelowOrder{{}})
 	go sellStrategry.Start()
 
+	store := metrics.MetricStore{}
+	store.ListenAndServe(":8080")
+
 	/*
 		go order.StrategrySellEveryDayIfHigherThan("15:00", []order.StrategryOrder{{
 			Code:     krxcode.Code농심홀딩스,
@@ -155,13 +160,6 @@ func main() {
 	*/
 	//order.Demo()
 
-	listenHttpMetric()
-
 	// Infinite.
 	<-exit
-}
-
-func listenHttpMetric() {
-	http.Handle("/metrics", promhttp.Handler())
-	http.ListenAndServe(":8080", nil)
 }
