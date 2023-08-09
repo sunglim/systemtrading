@@ -41,6 +41,10 @@ The application requires a telegram bot token and chat ID. See [BotFather](https
 
 See `go run ./src/main -h` explains how to pass the token and chat id.
 
+## Metrics
+
+`http://<ip>:8080/metrics` is exposed.
+
 # Development plan
 
 [Development plan](./docs/development_plan.md)
@@ -48,8 +52,6 @@ See `go run ./src/main -h` explains how to pass the token and chat id.
 # Research
 
 * Existing system trading applications
-
-#
 
 
 # The system trading application should be
