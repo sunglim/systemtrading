@@ -4,6 +4,9 @@ import (
 	"flag"
 	gologger "log"
 
+	"net/http"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	log "sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order"
@@ -42,8 +45,7 @@ func main() {
 		ACNT_PRDT_CD: "01",
 	})
 
-	// Buy Samsung eletronics at 10 am.
-	//go order.StrategryBuyEveryDay(koreaexchange.Code삼성전자, "10:00")
+	go order.StrategryBuyEveryDay(krxcode.CodeBNK금융지주, "09:10")
 
 	go order.StrategryBuyEveryDayIfBelowAverage("12:07", []order.StrategryBuyEveryDayIfBelowOrder{
 		{
@@ -52,23 +54,23 @@ func main() {
 		},
 		{
 			Code:     krxcode.Code우리금융지주,
-			Quantity: 2,
+			Quantity: 3,
 		},
 		{
 			Code:     krxcode.CodeBNK금융지주,
-			Quantity: 3,
+			Quantity: 4,
 		},
 		{
 			Code:     krxcode.CodeDGB금융지주,
-			Quantity: 3,
+			Quantity: 4,
 		},
 		{
 			Code:     "102110", // tiger 200
-			Quantity: 2,
+			Quantity: 1,
 		},
 	})
 
-	go order.StrategryBuyEveryDayIfLowerThan("12:00", []order.StrategryOrder{
+	go order.StrategryBuyEveryDayIfLowerThan("13:00", []order.StrategryOrder{
 		{
 			Code:     krxcode.Code부국증권,
 			Price:    17500,
@@ -87,7 +89,7 @@ func main() {
 		{
 			Code:     krxcode.Code삼성전자,
 			Price:    60000,
-			Quantity: 1,
+			Quantity: 5,
 		},
 		{
 			Code:     krxcode.Code신한지주,
@@ -112,17 +114,17 @@ func main() {
 		{
 			Code:     krxcode.CodeDGB금융지주,
 			Price:    7000,
-			Quantity: 3,
+			Quantity: 4,
 		},
 		{
 			Code:     krxcode.Code우리금융지주,
 			Price:    11400,
-			Quantity: 2,
+			Quantity: 1,
 		},
 		{
 			Code:     krxcode.Code신한지주,
-			Price:    30000,
-			Quantity: 1,
+			Price:    32000,
+			Quantity: 10,
 		},
 		{
 			Code:     krxcode.Code케이티앤지,
@@ -141,7 +143,7 @@ func main() {
 		},
 	})
 
-	sellStrategry := order.NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage("13:00", []order.StrategryBuyEveryDayIfBelowOrder{{}})
+	sellStrategry := order.NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage("13:01", []order.StrategryBuyEveryDayIfBelowOrder{{}})
 	go sellStrategry.Start()
 
 	/*
@@ -153,6 +155,13 @@ func main() {
 	*/
 	//order.Demo()
 
+	listenHttpMetric()
+
 	// Infinite.
 	<-exit
+}
+
+func listenHttpMetric() {
+	http.Handle("/metrics", promhttp.Handler())
+	http.ListenAndServe(":8080", nil)
 }

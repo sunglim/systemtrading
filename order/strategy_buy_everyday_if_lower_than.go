@@ -49,8 +49,6 @@ func StrategryBuyEveryDayIfLowerThan(buytime string, codePrices []StrategryOrder
 	logger := log.Default()
 	logger.SetPrefix("[Buy if average is lower than] ")
 
-	logger.Println("start new stragegy")
-
 	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(buyLowerOrder, codePrices, logger)
 	s.StartAsync()
