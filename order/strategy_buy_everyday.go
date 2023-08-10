@@ -18,11 +18,6 @@ func orderOrderCash(apiOrderCash *ki.ApiOrderCash) {
 }
 
 func StrategryBuyEveryDay(code, buytime string) {
-	err := initializeKoreaInvestment()
-	if err != nil {
-		fmt.Printf("initialization failed %s", err.Error())
-	}
-
 	apiOrderCash := ki.CreateApiOrderCash(code,
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
 		koreainvestment.GetDefaultAccount(),

@@ -5,6 +5,7 @@ import (
 	gologger "log"
 
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
+
 	"sunglim.github.com/sunglim/systemtrading/internal/metrics"
 	log "sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order"
@@ -47,9 +48,9 @@ func main() {
 		ACNT_PRDT_CD: "01",
 	})
 
-	go order.StrategryBuyEveryDay(krxcode.CodeBNK금융지주, "09:10")
+	//go order.StrategryBuyEveryDay(krxcode.CodeBNK금융지주, "15:35")
 
-	go order.StrategryBuyEveryDayIfBelowAverage("12:07", []order.StrategryBuyEveryDayIfBelowOrder{
+	go order.StrategryBuyEveryDayIfBelowAverage("15:36", []order.StrategryBuyEveryDayIfBelowOrder{
 		{
 			Code:     krxcode.Code농심홀딩스,
 			Quantity: 1,

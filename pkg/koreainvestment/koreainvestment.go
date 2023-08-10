@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	gocron "github.com/go-co-op/gocron"
+	"github.com/go-co-op/gocron"
 	"sunglim.github.com/sunglim/systemtrading/internal/metrics"
 )
 
