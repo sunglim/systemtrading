@@ -48,24 +48,26 @@ func main() {
 		ACNT_PRDT_CD: "01",
 	})
 
-	//go order.StrategryBuyEveryDay(krxcode.CodeBNK금융지주, "15:35")
+	go order.StrategryBuyEveryDay(krxcode.Code기업은행, "12:05")
 
-	go order.StrategryBuyEveryDayIfBelowAverage("15:36", []order.StrategryBuyEveryDayIfBelowOrder{
+	go order.StrategryBuyEveryDay(krxcode.Code신한지주, "12:06")
+
+	go order.StrategryBuyEveryDayIfBelowAverage("12:00", []order.StrategryBuyEveryDayIfBelowOrder{
 		{
 			Code:     krxcode.Code농심홀딩스,
 			Quantity: 1,
 		},
 		{
 			Code:     krxcode.Code우리금융지주,
-			Quantity: 3,
+			Quantity: 4,
 		},
 		{
 			Code:     krxcode.CodeBNK금융지주,
-			Quantity: 4,
+			Quantity: 5,
 		},
 		{
 			Code:     krxcode.CodeDGB금융지주,
-			Quantity: 4,
+			Quantity: 5,
 		},
 		{
 			Code:     "102110", // tiger 200
@@ -95,11 +97,6 @@ func main() {
 			Quantity: 5,
 		},
 		{
-			Code:     krxcode.Code신한지주,
-			Price:    30000,
-			Quantity: 1,
-		},
-		{
 			Code:     krxcode.Code하나금융지주,
 			Price:    33000,
 			Quantity: 1,
@@ -121,7 +118,7 @@ func main() {
 		},
 		{
 			Code:     krxcode.Code우리금융지주,
-			Price:    11400,
+			Price:    11300,
 			Quantity: 1,
 		},
 		{
