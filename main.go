@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	gologger "log"
+	"strings"
 
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
 
@@ -43,9 +44,10 @@ func main() {
 		}
 	}
 
+	accountInfo := strings.Split(koreaAccount, "-")
 	koreainvestment.Initialize(koreaInvestmentUrl, koreaAppKey, koreaAppSecret, ki.KoreaInvestmentAccount{
-		CANO:         koreaAccount,
-		ACNT_PRDT_CD: "01",
+		CANO:         accountInfo[0],
+		ACNT_PRDT_CD: accountInfo[1],
 	})
 
 	go order.StrategryBuyEveryDay(krxcode.Code기업은행, "12:05")
