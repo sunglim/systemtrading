@@ -1,13 +1,14 @@
 package main
 
 import (
-	"flag"
 	gologger "log"
 
-	krxcode "github.com/sunglim/go-korea-stock-code/code"
+	"github.com/spf13/cobra"
 
+	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	"sunglim.github.com/sunglim/systemtrading/internal/metrics"
-	log "sunglim.github.com/sunglim/systemtrading/log"
+	"sunglim.github.com/sunglim/systemtrading/internal/options"
+	"sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
 	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
@@ -20,33 +21,30 @@ func init() {
 }
 
 func main() {
-	var telegramChatId int64
-	flag.Int64Var(&telegramChatId, "telegram_chat_id", 1234, "telegram chat ID")
-	var telegramToken string
-	flag.StringVar(&telegramToken, "telegram_token", "", "telegram token")
-	var koreaInvestmentUrl string
-	flag.StringVar(&koreaInvestmentUrl, "koreainvestment_url", "default", "kroeainvestment url")
-	var koreaAppKey string
-	flag.StringVar(&koreaAppKey, "koreainvestment_appkey", "default", "kroeainvestment appkey")
-	var koreaAppSecret string
-	flag.StringVar(&koreaAppSecret, "koreainvestment_appsecret", "default", "kroeainvestment appkey")
-	var koreaAccount string
-	flag.StringVar(&koreaAccount, "koreainvestment_account", "default", "kroeainvestment account")
+	opts := options.NewOptions()
+	cmd := options.InitCommands
+	cmd.Run = func(cmd *cobra.Command, args []string) {
+		// TODO: add the main logic.
+	}
+	opts.AddFlags(cmd)
 
-	flag.Parse()
+	if err := opts.Parse(); err != nil {
+		panic(err)
+	}
 
-	if telegramToken != "" {
-		telegramWriter := log.CreateTelegramWriter(telegramToken, telegramChatId)
+	if opts.TelegramToken != "" {
+		telegramWriter := log.CreateTelegramWriter(opts.TelegramToken, opts.TelegramChatId)
 		// nil when offline.
 		if telegramWriter != nil {
 			log.SetTelegramLogger(gologger.New(telegramWriter, "", gologger.Ldate|gologger.Ltime))
 		}
 	}
 
-	koreainvestment.Initialize(koreaInvestmentUrl, koreaAppKey, koreaAppSecret, ki.KoreaInvestmentAccount{
-		CANO:         koreaAccount,
-		ACNT_PRDT_CD: "01",
-	})
+	koreainvestment.Initialize(opts.KoreaInvestmentUrl, opts.KoreaInvestmentAppKey, opts.KoreaInvestmentSecret,
+		ki.KoreaInvestmentAccount{
+			CANO:         opts.KoreaInvestmentAccount,
+			ACNT_PRDT_CD: "01",
+		})
 
 	go order.StrategryBuyEveryDay(krxcode.Code기업은행, "12:05")
 
@@ -148,7 +146,6 @@ func main() {
 
 	store := metrics.MetricStore{}
 	store.ListenAndServe(":8080")
-
 	/*
 		go order.StrategrySellEveryDayIfHigherThan("15:00", []order.StrategryOrder{{
 			Code:     krxcode.Code농심홀딩스,
