@@ -48,10 +48,10 @@ func (o *Options) AddFlags(cmd *cobra.Command) {
 	o.cmd.Flags().Int64Var(&o.TelegramChatId, "telegram-chat-id", 0, "telegram chat ID")
 	o.cmd.Flags().StringVar(&o.TelegramToken, "telegram-token", "", "telegram token")
 
-	o.addRequiredFlag(&o.KoreaInvestmentUrl, "koreainvestment_url", "The endpoint of KoreaInvesment API")
-	o.addRequiredFlag(&o.KoreaInvestmentAppKey, "koreainvestment_appkey", "Your KoreaInvesment Appkey to call APIs")
-	o.addRequiredFlag(&o.KoreaInvestmentSecret, "koreainvestment_appsecret", "Your KoreaInvestment AppSecret to call APIs")
-	o.addRequiredFlag(&o.KoreaInvestmentAccount, "koreainvestment_account", "Your KoreaInvestment Account including '-' e.g. 123456-01")
+	o.addRequiredFlag(&o.KoreaInvestmentUrl, "koreainvestment-url", "The endpoint of KoreaInvesment API")
+	o.addRequiredFlag(&o.KoreaInvestmentAppKey, "koreainvestment-appkey", "Your KoreaInvesment Appkey to call APIs")
+	o.addRequiredFlag(&o.KoreaInvestmentSecret, "koreainvestment-appsecret", "Your KoreaInvestment AppSecret to call APIs")
+	o.addRequiredFlag(&o.KoreaInvestmentAccount, "koreainvestment-account", "Your KoreaInvestment Account including '-' e.g. 123456-01")
 
 	o.cmd.Execute()
 }
