@@ -14,8 +14,6 @@ import (
 	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
-var exit = make(chan bool)
-
 func init() {
 	metrics.RegisterMetrics()
 }
@@ -155,6 +153,5 @@ func main() {
 	*/
 	//order.Demo()
 
-	// Infinite.
-	<-exit
+	select {}
 }
