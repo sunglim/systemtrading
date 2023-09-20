@@ -2,6 +2,7 @@ package log
 
 import (
 	"log"
+
 	"os"
 )
 
@@ -44,6 +45,17 @@ var std = CreateLogger()
 
 func Default() *Logger {
 	return std
+}
+
+func SetTelegramLoggerByToken(telegramToken string, telegramChatId int64) {
+	if telegramToken == "" {
+		return
+	}
+
+	telegramWriter := CreateTelegramWriter(telegramToken, telegramChatId)
+	if telegramWriter != nil {
+		SetTelegramLogger(log.New(telegramWriter, "", log.Ldate|log.Ltime))
+	}
 }
 
 func SetTelegramLogger(logger *log.Logger) {

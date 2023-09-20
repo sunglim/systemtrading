@@ -52,8 +52,6 @@ func (o *Options) AddFlags(cmd *cobra.Command) {
 	o.addRequiredFlag(&o.KoreaInvestmentAppKey, "koreainvestment-appkey", "Your KoreaInvesment Appkey to call APIs")
 	o.addRequiredFlag(&o.KoreaInvestmentSecret, "koreainvestment-appsecret", "Your KoreaInvestment AppSecret to call APIs")
 	o.addRequiredFlag(&o.KoreaInvestmentAccount, "koreainvestment-account", "Your KoreaInvestment Account including '-' e.g. 123456-01")
-
-	o.cmd.Execute()
 }
 
 func (o *Options) addRequiredFlag(p *string, name, usage string) {

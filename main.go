@@ -1,8 +1,6 @@
 package main
 
 import (
-	gologger "log"
-
 	"github.com/spf13/cobra"
 
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
@@ -30,13 +28,7 @@ func main() {
 		panic(err)
 	}
 
-	if opts.TelegramToken != "" {
-		telegramWriter := log.CreateTelegramWriter(opts.TelegramToken, opts.TelegramChatId)
-		// nil when offline.
-		if telegramWriter != nil {
-			log.SetTelegramLogger(gologger.New(telegramWriter, "", gologger.Ldate|gologger.Ltime))
-		}
-	}
+	log.SetTelegramLoggerByToken(opts.TelegramToken, opts.TelegramChatId)
 
 	koreainvestment.Initialize(opts.KoreaInvestmentUrl, opts.KoreaInvestmentAppKey, opts.KoreaInvestmentSecret,
 		ki.KoreaInvestmentAccount{
