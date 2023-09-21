@@ -20,11 +20,17 @@ type Options struct {
 	KoreaInvestmentSecret  string `yaml:"koreainvestment_appsecret"`
 	KoreaInvestmentAccount string `yaml:"koreainvestment_account"`
 
+	ConfigFile string
+
 	cmd *cobra.Command
 }
 
 func NewOptions() *Options {
 	return &Options{}
+}
+
+func (o *Options) GetConfigFile() string {
+	return o.ConfigFile
 }
 
 func (o *Options) AddFlags(cmd *cobra.Command) {
@@ -47,6 +53,8 @@ func (o *Options) AddFlags(cmd *cobra.Command) {
 
 	o.cmd.Flags().Int64Var(&o.TelegramChatId, "telegram-chat-id", 0, "telegram chat ID")
 	o.cmd.Flags().StringVar(&o.TelegramToken, "telegram-token", "", "telegram token")
+
+	o.cmd.Flags().StringVar(&o.ConfigFile, "config-file", "", "A path to config file")
 
 	o.addRequiredFlag(&o.KoreaInvestmentUrl, "koreainvestment-url", "The endpoint of KoreaInvesment API")
 	o.addRequiredFlag(&o.KoreaInvestmentAppKey, "koreainvestment-appkey", "Your KoreaInvesment Appkey to call APIs")

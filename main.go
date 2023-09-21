@@ -1,7 +1,12 @@
 package main
 
 import (
+	"os"
+	"path/filepath"
+
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	"gopkg.in/yaml.v2"
 
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	"sunglim.github.com/sunglim/systemtrading/internal/metrics"
@@ -16,19 +21,44 @@ func init() {
 	metrics.RegisterMetrics()
 }
 
+func Wrapper(opts *options.Options) {
+	log.SetTelegramLoggerByToken(opts.TelegramToken, opts.TelegramChatId)
+
+	config := opts.ConfigFile
+	if config == "" {
+		return
+	}
+
+	cfgViper := viper.New()
+	cfgViper.SetConfigType("yaml")
+	cfgViper.SetConfigFile(config)
+	err := cfgViper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	configFile, err := os.ReadFile(filepath.Clean(config))
+	if err != nil {
+		panic(err)
+	}
+	yaml.Unmarshal(configFile, opts)
+
+	// Run()
+	// select{}
+}
+
 func main() {
 	opts := options.NewOptions()
 	cmd := options.InitCommands
 	cmd.Run = func(cmd *cobra.Command, args []string) {
 		// TODO: add the main logic.
+		Wrapper(opts)
 	}
 	opts.AddFlags(cmd)
 
 	if err := opts.Parse(); err != nil {
 		panic(err)
 	}
-
-	log.SetTelegramLoggerByToken(opts.TelegramToken, opts.TelegramChatId)
 
 	koreainvestment.Initialize(opts.KoreaInvestmentUrl, opts.KoreaInvestmentAppKey, opts.KoreaInvestmentSecret,
 		ki.KoreaInvestmentAccount{
