@@ -67,8 +67,8 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 }
 
 type StrategryBuyEveryDayIfBelowOrder struct {
-	Code     string
-	Quantity int
+	Code     string `yaml:"code"`
+	Quantity int    `yaml:"quantity"`
 }
 
 func StrategryBuyEveryDayIfBelowAverage(buytime string, codeQuantity []StrategryBuyEveryDayIfBelowOrder) {
