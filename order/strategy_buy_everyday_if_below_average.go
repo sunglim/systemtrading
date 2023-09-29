@@ -58,7 +58,7 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 	response := api.Call()
 	if !response.IsSuccess() {
-		logger.Printf("Getting Api order cash failed from the strategry")
+		logger.Printf("Api order cash failed from the strategry")
 		logger.Printf("Error[%s]", response.Msg1)
 		return
 	}

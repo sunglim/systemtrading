@@ -91,6 +91,7 @@ func (api ApiOrderCash) Call() *ApiOrderCashResponse {
 	client := &http.Client{}
 	res, err := client.Do(r)
 	if err != nil {
+		print("Order failed:", "reason", err.Error())
 		panic(err)
 	}
 	defer res.Body.Close()
