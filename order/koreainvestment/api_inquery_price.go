@@ -37,18 +37,19 @@ type InqueryPriceResponse struct {
 }
 
 func (api ApiInqueryPrice) Call(iscd string) string {
-	r, err := http.NewRequest(http.MethodPost, api.url(iscd), api.buildRequestBody())
+	req, err := http.NewRequest(http.MethodPost, api.url(iscd), api.buildRequestBody())
 	if err != nil {
 		panic(err)
 	}
-	r.Header.Add("Content-Type", "application/json")
-	r.Header.Add("authorization", ki_package.GetBearerAccessToken())
-	r.Header.Add("appkey", ki_package.GetCredential().AppKey)
-	r.Header.Add("appsecret", ki_package.GetCredential().AppSecret)
-	r.Header.Add("tr_id", "FHKST01010100")
+	req.Close = true
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("authorization", ki_package.GetBearerAccessToken())
+	req.Header.Add("appkey", ki_package.GetCredential().AppKey)
+	req.Header.Add("appsecret", ki_package.GetCredential().AppSecret)
+	req.Header.Add("tr_id", "FHKST01010100")
 
 	client := &http.Client{}
-	res, err := client.Do(r)
+	res, err := client.Do(req)
 	if err != nil {
 		panic(err)
 	}

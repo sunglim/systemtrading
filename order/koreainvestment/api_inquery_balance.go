@@ -78,7 +78,7 @@ type ApiInqueryBalanceResponseOutput struct {
 	EvluPflsAmt string `json:"evlu_pfls_amt"`
 	// The percentage of gain
 	EvluPflsRt string `json:"evlu_pfls_rt"`
-	HldgQty string `json:"hldg_qty"`
+	HldgQty    string `json:"hldg_qty"`
 }
 
 type ApiInqueryBalanceResponse struct {
@@ -95,18 +95,19 @@ func (response ApiInqueryBalanceResponse) IsSucess() bool {
 }
 
 func (api ApiInqueryBalance) Call() *ApiInqueryBalanceResponse {
-	r, err := http.NewRequest(http.MethodGet, api.url(), api.buildRequestBody())
+	req, err := http.NewRequest(http.MethodGet, api.url(), api.buildRequestBody())
 	if err != nil {
 		panic(err)
 	}
-	r.Header.Add("Content-Type", "application/json")
-	r.Header.Add("authorization", ki_package.GetBearerAccessToken())
-	r.Header.Add("appkey", ki_package.GetCredential().AppKey)
-	r.Header.Add("appsecret", ki_package.GetCredential().AppSecret)
-	r.Header.Add("tr_id", "TTTC8434R")
+	req.Close = true
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("authorization", ki_package.GetBearerAccessToken())
+	req.Header.Add("appkey", ki_package.GetCredential().AppKey)
+	req.Header.Add("appsecret", ki_package.GetCredential().AppSecret)
+	req.Header.Add("tr_id", "TTTC8434R")
 
 	client := &http.Client{}
-	res, err := client.Do(r)
+	res, err := client.Do(req)
 	if err != nil {
 		panic(err)
 	}
