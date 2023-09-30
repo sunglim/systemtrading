@@ -39,15 +39,16 @@ type GetAccessTokenResponse struct {
 }
 
 func (api *ApiGetAccessToken) Call() *GetAccessTokenResponse {
-	request, err := http.NewRequest(http.MethodPost, api.url(), api.buildRequestBody())
+	req, err := http.NewRequest(http.MethodPost, api.url(), api.buildRequestBody())
 	if err != nil {
 		// TODO: Return error instead of panic.
 		panic(err)
 	}
-	request.Header.Add("Content-Type", "application/json")
+	req.Close = true
+	req.Header.Add("Content-Type", "application/json")
 
 	client := http.Client{}
-	res, err := client.Do(request)
+	res, err := client.Do(req)
 	if err != nil {
 		panic(err)
 	}

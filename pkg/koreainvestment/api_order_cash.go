@@ -76,20 +76,20 @@ func (response ApiOrderCashResponse) IsSuccess() bool {
 }
 
 func (api ApiOrderCash) Call() *ApiOrderCashResponse {
-	url := api.url()
-	r, err := http.NewRequest(http.MethodPost, url, api.buildRequestBody())
+	req, err := http.NewRequest(http.MethodPost, api.url(), api.buildRequestBody())
 	if err != nil {
 		panic(err)
 	}
-	r.Header.Add("content-type", "application/json")
-	r.Header.Add("authorization", api.accessToken)
-	r.Header.Add("appkey", api.Credential.AppKey)
-	r.Header.Add("appsecret", api.Credential.AppSecret)
+	req.Close = true
+	req.Header.Add("content-type", "application/json")
+	req.Header.Add("authorization", api.accessToken)
+	req.Header.Add("appkey", api.Credential.AppKey)
+	req.Header.Add("appsecret", api.Credential.AppSecret)
 	// order cash
-	r.Header.Add("tr_id", "TTTC0802U")
+	req.Header.Add("tr_id", "TTTC0802U")
 
 	client := &http.Client{}
-	res, err := client.Do(r)
+	res, err := client.Do(req)
 	if err != nil {
 		print("Order failed:", "reason", err.Error())
 		panic(err)
