@@ -3,6 +3,7 @@ package order
 import (
 	"strconv"
 
+	"github.com/go-co-op/gocron"
 	"sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
 )
@@ -21,15 +22,15 @@ type StrategySellEveryDayIfAverageIsHigherThanAveragePercentage struct {
 	codeQuantity []StrategryBuyEveryDayIfBelowOrder
 }
 
-func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) Start() {
+func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) Start() *gocron.Scheduler {
 	logger := log.Default()
-	logger.SetPrefix("[Sell if average is higher] ")
-
-	logger.Println("start new stragegy")
+	logger.Println("[Sell if average is higher] start new stragegy")
 
 	s := NewSeoulScheduler().Every(1).Day().At(f.buyTime)
 	s.Do(f.order, f.codeQuantity, logger)
 	s.StartAsync()
+
+	return s
 }
 
 func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) order(codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
@@ -51,9 +52,9 @@ func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) orderCash(ba
 	// atoi X
 	gain_percentage, _ := strconv.ParseFloat(balanceResponseOutput.EvluPflsRt, 32)
 	if gain_percentage < 3.0 {
-	//#logger.Println("Didn't sell a stock;", "name", balanceResponseOutput.PrdtName,
-        //			"current price", balanceResponseOutput.Prpr, "average", balanceResponseOutput.PchsAvgPric,
-        //			"gain_percentage", gain_percentage)
+		//#logger.Println("Didn't sell a stock;", "name", balanceResponseOutput.PrdtName,
+		//			"current price", balanceResponseOutput.Prpr, "average", balanceResponseOutput.PchsAvgPric,
+		//			"gain_percentage", gain_percentage)
 		return
 	}
 
