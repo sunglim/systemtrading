@@ -3,6 +3,7 @@ package order
 import (
 	"strconv"
 
+	"github.com/go-co-op/gocron"
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	"sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
@@ -45,11 +46,13 @@ type StrategryOrder struct {
 	Quantity int
 }
 
-func StrategryBuyEveryDayIfLowerThan(buytime string, codePrices []StrategryOrder) {
+func StrategryBuyEveryDayIfLowerThan(buytime string, codePrices []StrategryOrder) *gocron.Scheduler {
 	logger := log.Default()
 	logger.SetPrefix("[Buy if average is lower than] ")
 
 	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(buyLowerOrder, codePrices, logger)
 	s.StartAsync()
+
+	return s
 }

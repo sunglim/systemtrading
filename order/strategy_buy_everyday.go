@@ -17,7 +17,7 @@ func orderOrderCash(apiOrderCash *ki.ApiOrderCash) {
 	handleOrderOrderCashResponse(response)
 }
 
-func StrategryBuyEveryDay(code, buytime string) {
+func StrategryBuyEveryDay(code, buytime string) *gocron.Scheduler {
 	apiOrderCash := ki.CreateApiOrderCash(code,
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
 		koreainvestment.GetDefaultAccount(),
@@ -26,6 +26,8 @@ func StrategryBuyEveryDay(code, buytime string) {
 	s := gocron.NewScheduler(time.Now().Location()).Every(1).Day().At(buytime)
 	s.Do(orderOrderCash, apiOrderCash)
 	s.StartAsync()
+
+	return s
 }
 
 func handleOrderOrderCashResponse(response *ki.ApiOrderCashResponse) {
