@@ -3,3 +3,4 @@
 src/.DS_Store
 src/__debug_bin
 run.sh
+config.yaml
