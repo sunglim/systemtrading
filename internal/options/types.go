@@ -4,6 +4,12 @@ import "sunglim.github.com/sunglim/systemtrading/order"
 
 type MetricSet map[string]struct{}
 
+type BuyEveryDayIfBelowAverage struct {
+	BuyEveryDayIfBelowAverage BuyEveryDayIfBelowAverageConfig `yaml:"BuyEveryDayIfBelowAverage"`
+}
+
 type BuyEveryDayIfBelowAverageConfig struct {
-	BelowAverage []order.StrategryBuyEveryDayIfBelowOrder `yaml:"BuyEveryDayIfBelowAverage"`
+	// "12:00"
+	ExecutionTime   string                                   `yaml:"ExecutionTime"`
+	CodeAndQuantity []order.StrategryBuyEveryDayIfBelowOrder `yaml:"CodeAndQuantity"`
 }

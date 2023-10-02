@@ -42,7 +42,8 @@ func Wrapper(opts *options.Options) {
 
 		gocrons.PushBack(order.StrategryBuyEveryDay(krxcode.Code신한지주, "12:06"))
 
-		gocrons.PushBack(order.StrategryBuyEveryDayIfBelowAverage("12:00", opts.BuyEveryDayIfBelowAverageConfig.BelowAverage))
+		buyConfig := opts.BuyEveryDayIfBelowAverageConfig.BuyEveryDayIfBelowAverage
+		gocrons.PushBack(order.StrategryBuyEveryDayIfBelowAverage(buyConfig.ExecutionTime, buyConfig.CodeAndQuantity))
 
 		scheduler := order.StrategryBuyEveryDayIfLowerThan("21:57", []order.StrategryOrder{
 			{

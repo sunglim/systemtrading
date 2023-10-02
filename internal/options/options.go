@@ -21,7 +21,7 @@ type Options struct {
 	KoreaInvestmentAccount string `yaml:"koreainvestment_account"`
 
 	// filled out when the config file has relevant configs.
-	BuyEveryDayIfBelowAverageConfig BuyEveryDayIfBelowAverageConfig
+	BuyEveryDayIfBelowAverageConfig BuyEveryDayIfBelowAverage
 
 	ConfigFile string
 
