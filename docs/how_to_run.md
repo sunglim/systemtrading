@@ -1,6 +1,5 @@
 # How to run
 
-
 ## With config file
 
 go run main.go --config-file config.yaml
@@ -23,4 +22,15 @@ BuyEveryDayIfBelowAverage:
     # KBstar 200
     - code: "148020"
       quantity: 4
+BuyEveryDayIfLowerThan:
+  ExecutionTime: "12:05"
+  CodeAndQuantityAndPrice:
+  # KBStar 200
+  - code: "148020"
+    quantity: 10
+    price: 29000
+  # KT&G
+  - code: "033780"
+    quantity: 1
+    price: 80000 
 ```

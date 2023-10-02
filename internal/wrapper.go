@@ -45,73 +45,8 @@ func Wrapper(opts *options.Options) {
 		buyConfig := opts.BuyEveryDayIfBelowAverageConfig.BuyEveryDayIfBelowAverage
 		gocrons.PushBack(order.StrategryBuyEveryDayIfBelowAverage(buyConfig.ExecutionTime, buyConfig.CodeAndQuantity))
 
-		scheduler := order.StrategryBuyEveryDayIfLowerThan("21:57", []order.StrategryOrder{
-			{
-				Code:     krxcode.Code부국증권,
-				Price:    17500,
-				Quantity: 2,
-			},
-			{
-				Code:     krxcode.CodeKB금융,
-				Price:    48000,
-				Quantity: 1,
-			},
-			{
-				Code:     krxcode.Code삼성카드,
-				Price:    28400,
-				Quantity: 1,
-			},
-			{
-				Code:     krxcode.Code삼성전자,
-				Price:    60000,
-				Quantity: 5,
-			},
-			{
-				Code:     krxcode.Code하나금융지주,
-				Price:    33000,
-				Quantity: 1,
-			},
-			{
-				Code:     krxcode.CodeBNK금융지주,
-				Price:    6500,
-				Quantity: 3,
-			},
-			{
-				Code:     krxcode.Code기업은행,
-				Price:    9600,
-				Quantity: 2,
-			},
-			{
-				Code:     krxcode.CodeDGB금융지주,
-				Price:    7000,
-				Quantity: 4,
-			},
-			{
-				Code:     krxcode.Code우리금융지주,
-				Price:    11300,
-				Quantity: 1,
-			},
-			{
-				Code:     krxcode.Code신한지주,
-				Price:    32000,
-				Quantity: 10,
-			},
-			{
-				Code:     krxcode.Code케이티앤지,
-				Price:    80000,
-				Quantity: 1,
-			},
-			{
-				Code:     "102110", // tiger 200
-				Price:    29000,
-				Quantity: 10,
-			},
-			{
-				Code:     "148020", // kbstar 200
-				Price:    29000,
-				Quantity: 10,
-			},
-		})
+		buyLowerThanConfig := opts.BuyEveryDayIfLowerThanConfig.BuyEveryDayIfLowerThan
+		scheduler := order.StrategryBuyEveryDayIfLowerThan(buyLowerThanConfig.ExecutionTime, buyLowerThanConfig.CodeAndQuantityAndPrice)
 
 		gocrons.PushBack(scheduler)
 
@@ -148,6 +83,11 @@ func Wrapper(opts *options.Options) {
 	}
 
 	err = yaml.Unmarshal(configFile, &opts.BuyEveryDayIfBelowAverageConfig)
+	if err != nil {
+		panic(err)
+	}
+
+	err = yaml.Unmarshal(configFile, &opts.BuyEveryDayIfLowerThanConfig)
 	if err != nil {
 		panic(err)
 	}
