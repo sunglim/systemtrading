@@ -40,11 +40,7 @@ func BuyLowerOrderCash(code StrategryOrder, logger *log.Logger) {
 	logger.Printf("An order is successfully sent [%v]", response)
 }
 
-type StrategryOrder struct {
-	Code     string
-	Price    int
-	Quantity int
-}
+type StrategryOrder = CodeAndQuantityAndPrice
 
 func StrategryBuyEveryDayIfLowerThan(buytime string, codePrices []StrategryOrder) *gocron.Scheduler {
 	logger := log.Default()

@@ -10,8 +10,8 @@ type BuyEveryDayIfBelowAverage struct {
 
 type BuyEveryDayIfBelowAverageConfig struct {
 	// "12:00"
-	ExecutionTime   string                                   `yaml:"ExecutionTime"`
-	CodeAndQuantity []order.StrategryBuyEveryDayIfBelowOrder `yaml:"CodeAndQuantity"`
+	ExecutionTime   string                  `yaml:"ExecutionTime"`
+	CodeAndQuantity []order.CodeAndQuantity `yaml:"CodeAndQuantity"`
 }
 
 type BuyEveryDayIfLowerThan struct {
