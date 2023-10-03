@@ -5,6 +5,7 @@ go 1.19
 require github.com/go-co-op/gocron v1.27.0
 
 require (
+	github.com/fsnotify/fsnotify v1.6.0
 	github.com/prometheus/common v0.42.0
 	github.com/sunglim/go-korea-stock-code v0.1.0
 )
@@ -12,7 +13,6 @@ require (
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
-	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect

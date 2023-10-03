@@ -1,6 +1,8 @@
+*.swp
 .DS_Store
 .vscode
 config.yaml
 run.sh
+systemtrading
 src/.DS_Store
 src/__debug_bin
