@@ -8,33 +8,26 @@ import (
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
 )
 
-type StrategrySellEveryDayIfBelowOrder struct {
-	Code     string
-	Quantity int
-}
+type StrategrySellEveryDayIfBelowOrder = CodeAndQuantity
 
-func NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage(buytime string, codeQuantity []StrategryBuyEveryDayIfBelowOrder) *StrategySellEveryDayIfAverageIsHigherThanAveragePercentage {
+func NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage(buytime string, codeQuantity []StrategrySellEveryDayIfBelowOrder) *StrategySellEveryDayIfAverageIsHigherThanAveragePercentage {
 	return &StrategySellEveryDayIfAverageIsHigherThanAveragePercentage{buytime, codeQuantity}
 }
 
 type StrategySellEveryDayIfAverageIsHigherThanAveragePercentage struct {
 	buyTime      string
-	codeQuantity []StrategryBuyEveryDayIfBelowOrder
+	codeQuantity []StrategrySellEveryDayIfBelowOrder
 }
 
 func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) Start() *gocron.Scheduler {
-	logger := log.Default()
-	logger.Println("[Sell if average is higher] start new stragegy")
-
 	s := NewSeoulScheduler().Every(1).Day().At(f.buyTime)
-	s.Do(f.order, f.codeQuantity, logger)
+	s.Do(f.order, f.codeQuantity, log.Default())
 	s.StartAsync()
 
 	return s
 }
 
-func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) order(codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
-	logger.Printf("Triggered")
+func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) order(codeQuantity []StrategrySellEveryDayIfBelowOrder, logger *log.Logger) {
 	balanceResponse := koreainvestment.ApiInqueryBalance{}.Call()
 	if !balanceResponse.IsSucess() {
 		logger.Printf("Getting blance failed")
@@ -47,7 +40,7 @@ func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) order(codeQu
 
 }
 
-func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOutput, codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
+func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOutput, codeQuantity []StrategrySellEveryDayIfBelowOrder, logger *log.Logger) {
 	// Core logic starts.
 	// atoi X
 	gain_percentage, _ := strconv.ParseFloat(balanceResponseOutput.EvluPflsRt, 32)

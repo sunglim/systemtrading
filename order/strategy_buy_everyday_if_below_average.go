@@ -67,10 +67,7 @@ func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOu
 	logger.Println("An order is successfully sent", "name", balanceResponseOutput.PrdtName, "response", response.Msg1)
 }
 
-type StrategryBuyEveryDayIfBelowOrder struct {
-	Code     string `yaml:"code"`
-	Quantity int    `yaml:"quantity"`
-}
+type StrategryBuyEveryDayIfBelowOrder = CodeAndQuantity
 
 func StrategryBuyEveryDayIfBelowAverage(buytime string, codeQuantity []StrategryBuyEveryDayIfBelowOrder) *gocron.Scheduler {
 	logger := log.Default()
