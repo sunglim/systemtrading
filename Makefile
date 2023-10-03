@@ -4,10 +4,12 @@ VERSION = $(shell cat VERSION)
 TAG ?= $(TAG_PREFIX)$(VERSION)
 ARCH ?= $(shell go env GOARCH)
 OS ?= $(shell uname -s | tr A-Z a-z)
-ALL_ARCH = amd64 arm arm64 ppc64le s390x
+ALL_ARCH = amd64 arm arm64
 GO_VERSION = 1.21.1
 IMAGE = $(REGISTRY)/systemtrading
 DOCKER_CLI ?= docker
+
+export DOCKER_CLI_EXPERIMENTAL=enabled
 
 build-local:
 	GOOS=$(OS) GOARCH=$(ARCH) CGO_ENABLED=0 go build -o systemtrading
