@@ -23,4 +23,8 @@ func main() {
 	if err := opts.Parse(); err != nil {
 		panic(err)
 	}
+
+	if err := opts.Validate(); err != nil {
+		panic(err)
+	}
 }

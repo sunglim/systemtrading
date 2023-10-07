@@ -15,14 +15,6 @@ const (
 	TestingDomain    = "https://openapivts.koreainvestment.com:29443"
 )
 
-type KoreaInvestmentAccount struct {
-	// 종합계좌번호; 계좌번호 체계(8-2)의 앞 8자리
-	CANO string
-
-	// 계좌상품코드; 계좌번호 체계(8-2)의 뒤 2자리
-	ACNT_PRDT_CD string
-}
-
 // Credential crednetials.
 type Credential struct {
 	AppKey    string
