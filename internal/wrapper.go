@@ -27,11 +27,9 @@ func Wrapper(opts *options.Options) {
 		return
 	}
 
-	koreainvestment.Initialize(opts.KoreaInvestmentUrl, opts.KoreaInvestmentAppKey, opts.KoreaInvestmentSecret,
-		ki.KoreaInvestmentAccount{
-			CANO:         opts.KoreaInvestmentAccount,
-			ACNT_PRDT_CD: "01",
-		})
+	koreainvestment.Initialize(opts.KoreaInvestmentUrl, opts.KoreaInvestmentAppKey,
+		opts.KoreaInvestmentSecret,
+		ki.ConvertToKoreaInvestmentAccountNoError(opts.KoreaInvestmentAccount))
 
 	gocrons := list.New()
 	RunOrDie := func(ctx context.Context) {

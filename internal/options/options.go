@@ -6,6 +6,7 @@ import (
 
 	"github.com/prometheus/common/version"
 	"github.com/spf13/cobra"
+	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 // A list of configuratable parameters.
@@ -15,9 +16,11 @@ type Options struct {
 	TelegramChatId int64  `yaml:"telegram_chat_id"`
 	TelegramToken  string `yaml:"telegram_token"`
 
-	KoreaInvestmentUrl     string `yaml:"koreainvestment_url"`
-	KoreaInvestmentAppKey  string `yaml:"koreainvestment_appkey"`
-	KoreaInvestmentSecret  string `yaml:"koreainvestment_appsecret"`
+	KoreaInvestmentUrl    string `yaml:"koreainvestment_url"`
+	KoreaInvestmentAppKey string `yaml:"koreainvestment_appkey"`
+	KoreaInvestmentSecret string `yaml:"koreainvestment_appsecret"`
+
+	// KoreaInvestment Account. It has `0000000-00` pattern.
 	KoreaInvestmentAccount string `yaml:"koreainvestment_account"`
 
 	// filled out when the config file has relevant configs.
@@ -74,6 +77,11 @@ func (o *Options) addRequiredFlag(p *string, name, usage string) {
 
 func (o *Options) Parse() error {
 	err := o.cmd.Execute()
+	return err
+}
+
+func (o *Options) Validate() error {
+	_, err := ki.ConvertToKoreaInvestmentAccount(o.KoreaInvestmentAccount)
 	return err
 }
 
