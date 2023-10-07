@@ -1,6 +1,6 @@
 module github.com/sunglim/systemtrading
 
-go 1.19
+go 1.21
 
 require github.com/go-co-op/gocron v1.27.0
 
