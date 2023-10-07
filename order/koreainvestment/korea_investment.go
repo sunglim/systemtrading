@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
+	ki "github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 var productionUrl string

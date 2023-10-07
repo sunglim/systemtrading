@@ -1,6 +1,6 @@
 package options
 
-import "sunglim.github.com/sunglim/systemtrading/order"
+import "github.com/sunglim/systemtrading/order"
 
 type MetricSet map[string]struct{}
 

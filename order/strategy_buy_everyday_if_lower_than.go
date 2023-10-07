@@ -5,9 +5,9 @@ import (
 
 	"github.com/go-co-op/gocron"
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
-	"sunglim.github.com/sunglim/systemtrading/log"
-	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
-	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
+	"github.com/sunglim/systemtrading/log"
+	"github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 // Buy a stock if the price is lower than ...

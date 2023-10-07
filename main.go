@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/spf13/cobra"
 
-	"sunglim.github.com/sunglim/systemtrading/internal"
-	"sunglim.github.com/sunglim/systemtrading/internal/metrics"
-	"sunglim.github.com/sunglim/systemtrading/internal/options"
+	"github.com/sunglim/systemtrading/internal"
+	"github.com/sunglim/systemtrading/internal/metrics"
+	"github.com/sunglim/systemtrading/internal/options"
 )
 
 func init() {

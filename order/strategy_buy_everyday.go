@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/go-co-op/gocron"
-	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
-	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
+	"github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 // Buy single stock every day at 10 am.
