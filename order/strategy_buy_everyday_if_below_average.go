@@ -13,9 +13,14 @@ import (
 
 func order(codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
 	logger.Printf("Triggered")
-	balanceResponse := koreainvestment.ApiInqueryBalance{}.Call()
-	if !balanceResponse.IsSucess() {
-		logger.Printf("Getting blance failed")
+
+	api := ki.NewApiInquireBalance(koreainvestment.GetDefaultAccount(),
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
+
+	balanceResponse, err := api.Call()
+	if !balanceResponse.IsSucess() || err != nil {
+		logger.Printf("Getting blance failed" + err.Error())
 		return
 	}
 
@@ -34,7 +39,7 @@ func getQuantityByCode(code string, codeQuantity []StrategryBuyEveryDayIfBelowOr
 	return 1
 }
 
-func orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOutput, codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
+func orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
 	// Core logic starts.
 	logger.Println("quantity:" + balanceResponseOutput.HldgQty)
 	quantity, _ := strconv.Atoi(balanceResponseOutput.HldgQty)

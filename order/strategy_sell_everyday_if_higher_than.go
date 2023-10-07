@@ -6,6 +6,7 @@ import (
 	"github.com/go-co-op/gocron"
 	"sunglim.github.com/sunglim/systemtrading/log"
 	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 type StrategrySellEveryDayIfBelowOrder = CodeAndQuantity
@@ -28,9 +29,13 @@ func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) Start() *goc
 }
 
 func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) order(codeQuantity []StrategrySellEveryDayIfBelowOrder, logger *log.Logger) {
-	balanceResponse := koreainvestment.ApiInqueryBalance{}.Call()
-	if !balanceResponse.IsSucess() {
-		logger.Printf("Getting blance failed")
+	api := ki.NewApiInquireBalance(koreainvestment.GetDefaultAccount(),
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
+		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
+
+	balanceResponse, err := api.Call()
+	if !balanceResponse.IsSucess() || err != nil {
+		logger.Printf("Getting blance failed" + err.Error())
 		return
 	}
 
@@ -40,7 +45,7 @@ func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) order(codeQu
 
 }
 
-func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) orderCash(balanceResponseOutput koreainvestment.ApiInqueryBalanceResponseOutput, codeQuantity []StrategrySellEveryDayIfBelowOrder, logger *log.Logger) {
+func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQuantity []StrategrySellEveryDayIfBelowOrder, logger *log.Logger) {
 	// Core logic starts.
 	// atoi X
 	gain_percentage, _ := strconv.ParseFloat(balanceResponseOutput.EvluPflsRt, 32)
