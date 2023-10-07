@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-co-op/gocron"
-	"sunglim.github.com/sunglim/systemtrading/internal/metrics"
+	"github.com/sunglim/systemtrading/internal/metrics"
 )
 
 var forTesting bool

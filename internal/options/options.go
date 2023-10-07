@@ -6,7 +6,7 @@ import (
 
 	"github.com/prometheus/common/version"
 	"github.com/spf13/cobra"
-	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
+	ki "github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 // A list of configuratable parameters.

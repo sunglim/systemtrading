@@ -1,4 +1,4 @@
-module sunglim.github.com/sunglim/systemtrading
+module github.com/sunglim/systemtrading
 
 go 1.19
 

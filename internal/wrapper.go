@@ -12,11 +12,11 @@ import (
 	"github.com/spf13/viper"
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	"gopkg.in/yaml.v2"
-	"sunglim.github.com/sunglim/systemtrading/internal/options"
-	"sunglim.github.com/sunglim/systemtrading/log"
-	"sunglim.github.com/sunglim/systemtrading/order"
-	"sunglim.github.com/sunglim/systemtrading/order/koreainvestment"
-	ki "sunglim.github.com/sunglim/systemtrading/pkg/koreainvestment"
+	"github.com/sunglim/systemtrading/internal/options"
+	"github.com/sunglim/systemtrading/log"
+	"github.com/sunglim/systemtrading/order"
+	"github.com/sunglim/systemtrading/order/koreainvestment"
+	ki "github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
 func Wrapper(opts *options.Options) {
