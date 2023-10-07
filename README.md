@@ -6,6 +6,8 @@ My first system trading application
 
 - [Korea investment(한국투자증권)](https://apiportal.koreainvestment.com/about) is the only brokerage supporting REST API in Korea.
 
+## go package
+https://pkg.go.dev/github.com/sunglim/systemtrading
 
 # How to run
 
