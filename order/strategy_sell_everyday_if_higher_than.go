@@ -34,7 +34,7 @@ func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) order(codeQu
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 
 	balanceResponse, err := api.Call()
-	if !balanceResponse.IsSucess() || err != nil {
+	if (balanceResponse != nil && !balanceResponse.IsSucess()) || err != nil {
 		logger.Printf("Getting blance failed" + err.Error())
 		return
 	}

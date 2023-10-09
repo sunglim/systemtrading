@@ -19,7 +19,7 @@ func order(codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) 
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 
 	balanceResponse, err := api.Call()
-	if !balanceResponse.IsSucess() || err != nil {
+	if err != nil || !balanceResponse.IsSucess() {
 		logger.Printf("Getting blance failed" + err.Error())
 		return
 	}
