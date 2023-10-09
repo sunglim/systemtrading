@@ -32,7 +32,7 @@ func BuyLowerOrderCash(code StrategryOrder, logger *log.Logger) {
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
 		koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken()).Call()
-	if !response.IsSuccess() {
+	if response != nil && !response.IsSuccess() {
 		logger.Printf("orde failed with error[%s]", response.Msg1)
 		return
 	}
