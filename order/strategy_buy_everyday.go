@@ -14,7 +14,7 @@ import (
 func orderOrderCash(apiOrderCash *ki.ApiOrderCash) {
 	response := apiOrderCash.Call()
 
-	handleOrderOrderCashResponse(response)
+	handleOrderOrderCashResponse(response, apiOrderCash.StockCode())
 }
 
 func StrategryBuyEveryDay(code, buytime string) *gocron.Scheduler {
@@ -30,11 +30,11 @@ func StrategryBuyEveryDay(code, buytime string) *gocron.Scheduler {
 	return s
 }
 
-func handleOrderOrderCashResponse(response *ki.ApiOrderCashResponse) {
+func handleOrderOrderCashResponse(response *ki.ApiOrderCashResponse, stockCode string) {
 	if isSuccess(response.RtCd) {
 		fmt.Printf("Call success\n")
 	} else {
-		fmt.Printf("Call fail. error code[%s], msg[%s], responseTime[%v]\n", response.RtCd, response.Msg1, response.ResponseTime)
+		fmt.Printf("Call fail. stockcode[%s], error code[%s], msg[%s], responseTime[%v]\n", stockCode, response.RtCd, response.Msg1, response.ResponseTime)
 	}
 }
 

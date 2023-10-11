@@ -11,12 +11,12 @@ import (
 	"github.com/go-co-op/gocron"
 	"github.com/spf13/viper"
 	krxcode "github.com/sunglim/go-korea-stock-code/code"
-	"gopkg.in/yaml.v2"
 	"github.com/sunglim/systemtrading/internal/options"
 	"github.com/sunglim/systemtrading/log"
 	"github.com/sunglim/systemtrading/order"
 	"github.com/sunglim/systemtrading/order/koreainvestment"
 	ki "github.com/sunglim/systemtrading/pkg/koreainvestment"
+	"gopkg.in/yaml.v2"
 )
 
 func Wrapper(opts *options.Options) {
@@ -35,8 +35,6 @@ func Wrapper(opts *options.Options) {
 	RunOrDie := func(ctx context.Context) {
 		logger := log.Default()
 		logger.Println("Start cron jobs")
-
-		gocrons.PushBack(order.StrategryBuyEveryDay(krxcode.Code기업은행, "22:01"))
 
 		gocrons.PushBack(order.StrategryBuyEveryDay(krxcode.Code신한지주, "12:06"))
 

@@ -39,6 +39,10 @@ type ApiOrderCash struct {
 	accessToken string
 }
 
+func (api ApiOrderCash) StockCode() string {
+	return api.stockCode
+}
+
 func (api ApiOrderCash) url() string {
 	return ProductionDomain + "/uapi/domestic-stock/v1/trading/order-cash"
 }
