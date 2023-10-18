@@ -23,7 +23,7 @@ func StrategryBuyEveryDay(code, buytime string) *gocron.Scheduler {
 		koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 
-	s := gocron.NewScheduler(time.Now().Location()).Every(1).Day().At(buytime)
+	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(orderOrderCash, apiOrderCash)
 	s.StartAsync()
 
