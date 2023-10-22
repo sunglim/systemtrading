@@ -9,17 +9,15 @@ import (
 
 type ApiGetAccessToken struct {
 	credential Credential
+	client     *http.Client
 }
 
 func NewApiGetAccessToken(credential Credential) *ApiGetAccessToken {
-	return &ApiGetAccessToken{credential}
+	return &ApiGetAccessToken{credential, http.DefaultClient}
 }
 
 func (api *ApiGetAccessToken) url() string {
 	url := "/oauth2/tokenP"
-	if forTesting {
-		return TestingDomain + url
-	}
 	return ProductionDomain + url
 }
 
@@ -47,8 +45,7 @@ func (api *ApiGetAccessToken) Call() *GetAccessTokenResponse {
 	req.Close = true
 	req.Header.Add("Content-Type", "application/json")
 
-	client := http.Client{}
-	res, err := client.Do(req)
+	res, err := api.client.Do(req)
 	if err != nil {
 		panic(err)
 	}
