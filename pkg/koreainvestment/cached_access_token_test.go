@@ -8,6 +8,15 @@ import (
 	"testing"
 )
 
+type FakeApiGetAccessToken struct {
+	credential Credential
+	client     *http.Client
+}
+
+func (api *FakeApiGetAccessToken) Call() *GetAccessTokenResponse {
+	return nil
+}
+
 func TestGetToken(t *testing.T) {
 	jsonBytes, _ := json.Marshal(testResponse)
 	fakeClient := &http.Client{Transport: fakeService(func(*http.Request) (*http.Response, error) {
@@ -19,7 +28,8 @@ func TestGetToken(t *testing.T) {
 			Body: io.NopCloser(strings.NewReader(string(jsonBytes))),
 		}, nil
 	})}
-	api := ApiGetAccessToken{Credential{}, fakeClient}
+	//api := ApiGetAccessToken{Credential{}, fakeClient}
+	api := FakeApiGetAccessToken{Credential{}, fakeClient}
 	token := &Token{
 		api: &api,
 	}

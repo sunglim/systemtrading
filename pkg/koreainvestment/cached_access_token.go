@@ -17,8 +17,9 @@ func (c *CachedAccessToken) GetToken() string {
 
 func NewToken(credential Credential) *Token {
 	return &Token{
-		// Sets very old date to issue a new token when Get() is called for the first time.
+		value:           "",
 		lastUpdatedTime: time.Date(2009, 11, 17, 20, 34, 58, 651387237, time.UTC),
+		refreshInterval: 6,
 		api:             NewApiGetAccessToken(credential),
 	}
 
@@ -27,12 +28,13 @@ func NewToken(credential Credential) *Token {
 type Token struct {
 	value           string
 	lastUpdatedTime time.Time
+	refreshInterval float64
 	api             *ApiGetAccessToken
 }
 
 func (t *Token) Get() string {
 	now := time.Now()
-	if now.Sub(t.lastUpdatedTime).Minutes() < 6 {
+	if now.Sub(t.lastUpdatedTime).Minutes() < t.refreshInterval {
 		return t.value
 	}
 
