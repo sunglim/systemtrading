@@ -15,8 +15,8 @@ func (s fakeService) RoundTrip(req *http.Request) (*http.Response, error) {
 }
 
 var testResponse GetAccessTokenResponse = GetAccessTokenResponse{
-	AccessToken:             "testAccessToken",
-	AccessTokenTokenExpired: "testAccessTokenExpired",
+	AccessToken: "testAccessToken",
+	ExpiresIn:   "10",
 }
 
 func TestApiCallBasic(t *testing.T) {

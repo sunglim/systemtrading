@@ -35,8 +35,8 @@ func (api *ApiGetAccessToken) buildRequestBody() *bytes.Buffer {
 }
 
 type GetAccessTokenResponse struct {
-	AccessToken             string `json:"access_token"`
-	AccessTokenTokenExpired string `json:"access_token_token_expired"`
+	AccessToken string `json:"access_token"`
+	ExpiresIn   string `json:"expires_in"`
 }
 
 func (api *ApiGetAccessToken) Call() *GetAccessTokenResponse {
