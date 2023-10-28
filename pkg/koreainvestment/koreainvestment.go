@@ -39,11 +39,11 @@ func (f *KoreaInvestment) GetBearerAccessToken() string {
 }
 
 func NewKoreaInvestment(user Credential, logger *log.Logger) *KoreaInvestment {
-	return &KoreaInvestment{user: user, token: "", tokenRefreshHour: 10, logger: logger}
+	return &KoreaInvestment{user: user, token: "", tokenRefreshHour: 10, logger: logger, tokenExpire: time.Date(2050, 11, 17, 20, 34, 58, 651387237, time.UTC)}
 }
 
 func NewKoreaInvestmentTokenRefresh(user Credential, tokenRefreshHour int) *KoreaInvestment {
-	return &KoreaInvestment{user: user, token: "", tokenRefreshHour: tokenRefreshHour}
+	return &KoreaInvestment{user: user, token: "", tokenRefreshHour: tokenRefreshHour, tokenExpire: time.Date(2050, 11, 17, 20, 34, 58, 651387237, time.UTC)}
 }
 
 func (f *KoreaInvestment) setAccessToken() bool {
