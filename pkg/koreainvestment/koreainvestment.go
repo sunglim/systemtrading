@@ -1,6 +1,7 @@
 package koreainvestment
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -47,6 +48,11 @@ func NewKoreaInvestmentTokenRefresh(user Credential, tokenRefreshHour int) *Kore
 func (f *KoreaInvestment) setAccessToken() bool {
 	metrics.IssueToken()
 	response := NewApiGetAccessToken(f.user).Call()
+	if response.IsFailed() {
+		fmt.Printf("Failed to issue a new token: %s", response.Msg1)
+		return false
+	}
+
 	f.token = response.AccessToken
 	if f.logger != nil {
 		f.logger.Printf("\nset token %s: [%s]\n", time.Now().String(), f.token)
