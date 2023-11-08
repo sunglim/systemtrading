@@ -37,12 +37,12 @@ func (api *ApiGetAccessToken) buildRequestBody() *bytes.Buffer {
 type GetAccessTokenResponse struct {
 	AccessToken             string `json:"access_token"`
 	AccessTokenTokenExpired string `json:"access_token_token_expired"`
-	Msg1                    string `json:"msg1"`
-	MsgCd                   string `json:"msg_cd"`
+	ErroDescription         string `json:"error_description"`
+	ErrorCode               string `json:"error_code"`
 }
 
 func (g GetAccessTokenResponse) IsFailed() bool {
-	return g.MsgCd == "EGW00133"
+	return g.ErrorCode == "EGW00133" || g.AccessToken == ""
 }
 
 func (api *ApiGetAccessToken) Call() *GetAccessTokenResponse {
@@ -65,5 +65,6 @@ func (api *ApiGetAccessToken) Call() *GetAccessTokenResponse {
 	if derr != nil {
 		panic(derr)
 	}
+
 	return post
 }

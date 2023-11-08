@@ -49,7 +49,7 @@ func (f *KoreaInvestment) setAccessToken() bool {
 	metrics.IssueToken()
 	response := NewApiGetAccessToken(f.user).Call()
 	if response.IsFailed() {
-		fmt.Printf("Failed to issue a new token: %s", response.Msg1)
+		fmt.Printf("Failed to issue a new token: %s", response.ErroDescription)
 		return false
 	}
 
