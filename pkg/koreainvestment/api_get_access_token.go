@@ -37,6 +37,12 @@ func (api *ApiGetAccessToken) buildRequestBody() *bytes.Buffer {
 type GetAccessTokenResponse struct {
 	AccessToken             string `json:"access_token"`
 	AccessTokenTokenExpired string `json:"access_token_token_expired"`
+	ErroDescription         string `json:"error_description"`
+	ErrorCode               string `json:"error_code"`
+}
+
+func (g GetAccessTokenResponse) IsFailed() bool {
+	return g.ErrorCode == "EGW00133" || g.AccessToken == ""
 }
 
 func (api *ApiGetAccessToken) Call() *GetAccessTokenResponse {
@@ -55,16 +61,10 @@ func (api *ApiGetAccessToken) Call() *GetAccessTokenResponse {
 	defer res.Body.Close()
 
 	post := &GetAccessTokenResponse{}
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(res.Body)
-	fmt.Printf("\nset token [%s]\n", buf.String())
+	derr := json.NewDecoder(res.Body).Decode(post)
+	if derr != nil {
+		panic(derr)
+	}
 
-	json.Unmarshal([]byte(buf.String()), post)
-	/*
-		derr := json.NewDecoder(res.Body).Decode(post)
-		if derr != nil {
-			panic(derr)
-		}
-	*/
 	return post
 }
