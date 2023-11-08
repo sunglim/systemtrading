@@ -55,9 +55,16 @@ func (api *ApiGetAccessToken) Call() *GetAccessTokenResponse {
 	defer res.Body.Close()
 
 	post := &GetAccessTokenResponse{}
-	derr := json.NewDecoder(res.Body).Decode(post)
-	if derr != nil {
-		panic(derr)
-	}
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(res.Body)
+	fmt.Printf("\nset token [%s]\n", buf.String())
+
+	json.Unmarshal([]byte(buf.String()), post)
+	/*
+		derr := json.NewDecoder(res.Body).Decode(post)
+		if derr != nil {
+			panic(derr)
+		}
+	*/
 	return post
 }
