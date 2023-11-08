@@ -49,7 +49,7 @@ func (f *KoreaInvestment) setAccessToken() bool {
 	response := NewApiGetAccessToken(f.user).Call()
 	f.token = response.AccessToken
 	if f.logger != nil {
-		f.logger.Printf("\nset token %s: %s\n", time.Now().String(), f.token)
+		f.logger.Printf("\nset token %s: [%s]\n", time.Now().String(), f.token)
 	}
 
 	return true
