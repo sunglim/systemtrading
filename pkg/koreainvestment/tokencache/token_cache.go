@@ -1,10 +1,12 @@
-package koreainvestment
+package tokencache
 
 import (
 	"errors"
 	"time"
 )
 
+// A token cache. The cache will be invalidated in |invalidateInterval|.
+// 5 minutes is default.
 func NewTokenCache() *TokenCache {
 	return &TokenCache{data: "", expireDate: time.Now(),
 		invalidateInterval: time.Minute * 5}
