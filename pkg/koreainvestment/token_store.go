@@ -1,17 +1,21 @@
 package koreainvestment
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/sunglim/systemtrading/pkg/koreainvestment/tokencache"
+)
 
 type token = string
 
 // A store to get an always valid token.
 type TokenStore struct {
-	tokenCache *TokenCache
+	tokenCache *tokencache.TokenCache
 	api        *ApiGetAccessToken
 }
 
 func NewTokenStore(api *ApiGetAccessToken) *TokenStore {
-	return &TokenStore{tokenCache: NewTokenCache(), api: api}
+	return &TokenStore{tokenCache: tokencache.NewTokenCache(), api: api}
 }
 
 func (t *TokenStore) GetToken() (token, error) {

@@ -1,4 +1,4 @@
-package koreainvestment
+package tokencache
 
 import (
 	"testing"
