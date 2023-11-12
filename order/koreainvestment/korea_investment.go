@@ -16,6 +16,7 @@ func GetDefaultAccount() ki.KoreaInvestmentAccount {
 	return accountInfo
 }
 
+// Holds all necessary sub resources such as tokenstore.
 var ki_package *ki.KoreaInvestment
 
 func GetDefaultKoreaInvestmentInstance() *ki.KoreaInvestment {
@@ -30,7 +31,6 @@ func Initialize(url, applicationKey, applicationSecret string, account ki.KoreaI
 		AppKey:    applicationKey,
 		AppSecret: applicationSecret,
 	}, log.Default())
-	ki_package.InitializeToken()
 
 	fmt.Printf("Initialize Korea investment trading.\n ProductionUrl[%s], AppKey[%s], AppSecret[%s], AccountInfo[%v]\n",
 		productionUrl, ki_package.GetCredential().AppKey, ki_package.GetCredential().AppSecret, accountInfo)

@@ -3,10 +3,6 @@ package koreainvestment
 import (
 	"fmt"
 	"log"
-	"time"
-
-	"github.com/go-co-op/gocron"
-	"github.com/sunglim/systemtrading/internal/metrics"
 )
 
 var forTesting bool
@@ -23,10 +19,9 @@ type Credential struct {
 }
 
 type KoreaInvestment struct {
-	user             Credential
-	token            string
-	tokenRefreshHour int
-	logger           *log.Logger
+	user       Credential
+	logger     *log.Logger
+	tokenStore *TokenStore
 }
 
 func (f *KoreaInvestment) GetCredential() Credential {
@@ -34,40 +29,15 @@ func (f *KoreaInvestment) GetCredential() Credential {
 }
 
 func (f *KoreaInvestment) GetBearerAccessToken() string {
-	return "Bearer " + f.token
+	token, err := f.tokenStore.GetToken()
+	if err != nil {
+		fmt.Print("Get token failed")
+		return ""
+	}
+
+	return "Bearer " + token
 }
 
 func NewKoreaInvestment(user Credential, logger *log.Logger) *KoreaInvestment {
-	return &KoreaInvestment{user: user, token: "", tokenRefreshHour: 10, logger: logger}
-}
-
-func NewKoreaInvestmentTokenRefresh(user Credential, tokenRefreshHour int) *KoreaInvestment {
-	return &KoreaInvestment{user: user, token: "", tokenRefreshHour: tokenRefreshHour}
-}
-
-func (f *KoreaInvestment) setAccessToken() bool {
-	metrics.IssueToken()
-	response := NewApiGetAccessToken(f.user).Call()
-	if response.IsFailed() {
-		fmt.Printf("Failed to issue a new token: %s", response.ErroDescription)
-		return false
-	}
-
-	f.token = response.AccessToken
-	if f.logger != nil {
-		f.logger.Printf("\nset token %s: [%s]\n", time.Now().String(), f.token)
-	}
-
-	return true
-}
-
-func (f *KoreaInvestment) InitializeToken() bool {
-	f.setAccessToken()
-
-	// Refresh token periodically.
-	s := gocron.NewScheduler(time.UTC).Every(f.tokenRefreshHour).Hour()
-	s.Do(f.setAccessToken)
-	s.StartAsync()
-
-	return true
+	return &KoreaInvestment{user: user, tokenStore: NewTokenStore(NewApiGetAccessToken(user)), logger: logger}
 }
