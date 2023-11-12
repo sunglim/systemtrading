@@ -16,6 +16,7 @@ func GetDefaultAccount() ki.KoreaInvestmentAccount {
 	return accountInfo
 }
 
+// Holds all necessary sub resources such as tokenstore.
 var ki_package *ki.KoreaInvestment
 
 func GetDefaultKoreaInvestmentInstance() *ki.KoreaInvestment {

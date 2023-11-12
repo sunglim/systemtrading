@@ -11,7 +11,7 @@ type TokenStore struct {
 }
 
 func NewTokenStore(api *ApiGetAccessToken) *TokenStore {
-	return &TokenStore{tokenCache: NewTokenCache()}
+	return &TokenStore{tokenCache: NewTokenCache(), api: api}
 }
 
 func (t *TokenStore) GetToken() (token, error) {
