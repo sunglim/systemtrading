@@ -22,3 +22,12 @@ type BuyEveryDayIfLowerThanConfig struct {
 	ExecutionTime           string                 `yaml:"ExecutionTime"`
 	CodeAndQuantityAndPrice []order.StrategryOrder `yaml:"CodeAndQuantityAndPrice"`
 }
+
+type SellEveryDayIfHigherThan struct {
+	SellEveryDayIfLowerThan SellEveryDayIfHigherThanConfig `yaml:"SellEveryDayIfHigherThan"`
+}
+
+type SellEveryDayIfHigherThanConfig struct {
+	ExecutionTime           string                 `yaml:"ExecutionTime"`
+	CodeAndQuantityAndPrice []order.StrategryOrder `yaml:"CodeAndQuantityAndPrice"`
+}

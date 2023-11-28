@@ -43,12 +43,11 @@ func Wrapper(opts *options.Options) {
 
 		buyLowerThanConfig := opts.BuyEveryDayIfLowerThanConfig.BuyEveryDayIfLowerThan
 		scheduler := order.StrategryBuyEveryDayIfLowerThan(buyLowerThanConfig.ExecutionTime, buyLowerThanConfig.CodeAndQuantityAndPrice)
-
 		gocrons.PushBack(scheduler)
 
-		sellStrategry := order.NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage("13:01", []order.StrategryBuyEveryDayIfBelowOrder{{}})
-
-		gocrons.PushBack(sellStrategry.Start())
+		sellHigherThanConfig := opts.SellEveryDayIfHigherThanConfig.SellEveryDayIfLowerThan
+		scheudlerForSell := order.NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage(sellHigherThanConfig.ExecutionTime, sellHigherThanConfig.CodeAndQuantityAndPrice)
+		gocrons.PushBack(scheudlerForSell.Start())
 	}
 
 	cfgViper := viper.New()
@@ -84,6 +83,11 @@ func Wrapper(opts *options.Options) {
 	}
 
 	err = yaml.Unmarshal(configFile, &opts.BuyEveryDayIfLowerThanConfig)
+	if err != nil {
+		panic(err)
+	}
+
+	err = yaml.Unmarshal(configFile, &opts.SellEveryDayIfHigherThanConfig)
 	if err != nil {
 		panic(err)
 	}

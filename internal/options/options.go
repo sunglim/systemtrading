@@ -26,6 +26,7 @@ type Options struct {
 	// filled out when the config file has relevant configs.
 	BuyEveryDayIfBelowAverageConfig BuyEveryDayIfBelowAverage
 	BuyEveryDayIfLowerThanConfig    BuyEveryDayIfLowerThan
+	SellEveryDayIfHigherThanConfig  SellEveryDayIfHigherThan
 
 	ConfigFile string
 
