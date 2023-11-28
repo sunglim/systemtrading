@@ -9,7 +9,7 @@ import (
 	ki "github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
-type StrategrySellEveryDayIfBelowOrder = CodeAndQuantity
+type StrategrySellEveryDayIfBelowOrder = CodeAndQuantityAndPrice
 
 func NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage(buytime string, codeQuantity []StrategrySellEveryDayIfBelowOrder) *StrategySellEveryDayIfAverageIsHigherThanAveragePercentage {
 	return &StrategySellEveryDayIfAverageIsHigherThanAveragePercentage{buytime, codeQuantity}
