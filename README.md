@@ -1,5 +1,7 @@
 # systemtrading
 
+![docker release](https://github.com/sunglim/systemtrading/actions/workflows/docker_release.yml/badge.svg)
+
 My first system trading application
 
 ## Currently supporting brokerage
