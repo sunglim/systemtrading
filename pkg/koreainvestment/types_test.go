@@ -21,7 +21,7 @@ func TestKoreaInvestmentAccount(t *testing.T) {
 func TestKoreaInvestmentAccountInvalidFormat(t *testing.T) {
 	const validFormat = "12345678"
 	_, err := ConvertToKoreaInvestmentAccount(validFormat)
-	if err == nil {
+	if err != nil {
 		t.Errorf(`unwanted error`)
 	}
 }
