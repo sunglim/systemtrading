@@ -30,18 +30,8 @@ func order(codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) 
 
 }
 
-func getQuantityByCode(code string, codeQuantity []StrategryBuyEveryDayIfBelowOrder) int {
-	for _, single := range codeQuantity {
-		if code == single.Code {
-			return single.Quantity
-		}
-	}
-	return 1
-}
-
 func orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
 	// Core logic starts.
-	logger.Println("quantity:" + balanceResponseOutput.HldgQty)
 	quantity, _ := strconv.Atoi(balanceResponseOutput.HldgQty)
 	if quantity <= 0 {
 		return
@@ -49,9 +39,6 @@ func orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQua
 
 	plus_minus, _ := strconv.Atoi(balanceResponseOutput.EvluPflsAmt)
 	if plus_minus > 0 {
-		logger.Println("Didn't buy a stock;", "name", balanceResponseOutput.PrdtName,
-			"current price", balanceResponseOutput.Prpr, "average", balanceResponseOutput.PchsAvgPric,
-			"plus-minus", plus_minus)
 		return
 	}
 
@@ -77,8 +64,6 @@ type StrategryBuyEveryDayIfBelowOrder = CodeAndQuantity
 func StrategryBuyEveryDayIfBelowAverage(buytime string, codeQuantity []StrategryBuyEveryDayIfBelowOrder) *gocron.Scheduler {
 	logger := log.Default()
 	logger.SetPrefix("[Buy if average is below] ")
-
-	logger.Println("start new stragegy")
 
 	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(order, codeQuantity, logger)

@@ -42,8 +42,7 @@ func Wrapper(opts *options.Options) {
 		gocrons.PushBack(order.StrategryBuyEveryDayIfBelowAverage(buyConfig.ExecutionTime, buyConfig.CodeAndQuantity))
 
 		buyLowerThanConfig := opts.BuyEveryDayIfLowerThanConfig.BuyEveryDayIfLowerThan
-		scheduler := order.StrategryBuyEveryDayIfLowerThan(buyLowerThanConfig.ExecutionTime, buyLowerThanConfig.CodeAndQuantityAndPrice)
-		gocrons.PushBack(scheduler)
+		gocrons.PushBack(order.StrategryBuyEveryDayIfLowerThan(buyLowerThanConfig.ExecutionTime, buyLowerThanConfig.CodeAndQuantityAndPrice))
 
 		sellHigherThanConfig := opts.SellEveryDayIfHigherThanConfig.SellEveryDayIfLowerThan
 		scheudlerForSell := order.NewStrategySellEveryDayIfAverageIsHigherThanAveragePercentage(sellHigherThanConfig.ExecutionTime, sellHigherThanConfig.CodeAndQuantityAndPrice)
@@ -66,12 +65,14 @@ func Wrapper(opts *options.Options) {
 			val.Stop()
 		}
 
+		// Clear the list.
 		gocrons.Init()
 
 		RunOrDie(context.Background())
 	})
 	cfgViper.WatchConfig()
 
+	// Just read configs, and check if the syntax is not broken.
 	configFile, err := os.ReadFile(filepath.Clean(config))
 	if err != nil {
 		panic(err)
