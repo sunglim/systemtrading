@@ -1,7 +1,5 @@
 package koreainvestment
 
-// Implementatino of
-//
 import (
 	"bytes"
 	"encoding/json"
