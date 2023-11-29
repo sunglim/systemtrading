@@ -10,7 +10,6 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/go-co-op/gocron"
 	"github.com/spf13/viper"
-	krxcode "github.com/sunglim/go-korea-stock-code/code"
 	"github.com/sunglim/systemtrading/internal/options"
 	"github.com/sunglim/systemtrading/log"
 	"github.com/sunglim/systemtrading/order"
@@ -35,8 +34,6 @@ func Wrapper(opts *options.Options) {
 	RunOrDie := func(ctx context.Context) {
 		logger := log.Default()
 		logger.Println("Start cron jobs")
-
-		gocrons.PushBack(order.StrategryBuyEveryDay(krxcode.Code신한지주, "12:06"))
 
 		buyConfig := opts.BuyEveryDayIfBelowAverageConfig.BuyEveryDayIfBelowAverage
 		gocrons.PushBack(order.StrategryBuyEveryDayIfBelowAverage(buyConfig.ExecutionTime, buyConfig.CodeAndQuantity))
