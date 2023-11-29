@@ -1,6 +1,7 @@
 # systemtrading
 
 ![docker release](https://github.com/sunglim/systemtrading/actions/workflows/docker_release.yml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sunglim/systemtrading)](https://goreportcard.com/report/github.com/sunglim/systemtrading)
 
 My first system trading application
 
