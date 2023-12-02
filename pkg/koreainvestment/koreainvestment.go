@@ -31,7 +31,7 @@ func (f *KoreaInvestment) GetCredential() Credential {
 func (f *KoreaInvestment) GetBearerAccessToken() string {
 	token, err := f.tokenStore.GetToken()
 	if err != nil {
-		fmt.Print("Get token failed")
+		fmt.Println("Get token failed: " + err.Error())
 		return ""
 	}
 
