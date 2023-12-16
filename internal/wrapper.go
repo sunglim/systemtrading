@@ -33,7 +33,7 @@ func Wrapper(opts *options.Options) {
 	gocrons := list.New()
 	RunOrDie := func(ctx context.Context) {
 		logger := log.Default()
-		logger.Println("Start cron jobs")
+		logger.Warn("start cron jobs")
 
 		buyConfig := opts.BuyEveryDayIfBelowAverageConfig.BuyEveryDayIfBelowAverage
 		gocrons.PushBack(order.StrategryBuyEveryDayIfBelowAverage(buyConfig.ExecutionTime, buyConfig.CodeAndQuantity))

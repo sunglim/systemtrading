@@ -12,7 +12,7 @@ import (
 // Buy single stock every day at 10 am.
 
 func order(codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
-	logger.Printf("Triggered")
+	logger.Info("StrategryBuyEveryDayIfBelowOrder is triggered")
 
 	api := ki.NewApiInquireBalance(koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
@@ -56,7 +56,7 @@ func orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQua
 		return
 	}
 
-	logger.Println("An order is successfully sent", "name", balanceResponseOutput.PrdtName, "response", response.Msg1)
+	logger.Info("An order is successfully sent", "name", balanceResponseOutput.PrdtName, "response", response.Msg1)
 }
 
 type StrategryBuyEveryDayIfBelowOrder = CodeAndQuantity

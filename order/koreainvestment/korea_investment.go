@@ -1,9 +1,9 @@
 package koreainvestment
 
 import (
-	"fmt"
 	"log"
 
+	systemtradinglog "github.com/sunglim/systemtrading/log"
 	ki "github.com/sunglim/systemtrading/pkg/koreainvestment"
 )
 
@@ -32,6 +32,7 @@ func Initialize(url, applicationKey, applicationSecret string, account ki.KoreaI
 		AppSecret: applicationSecret,
 	}, log.Default())
 
-	fmt.Printf("Initialize Korea investment trading.\n ProductionUrl[%s], AppKey[%s], AppSecret[%s], AccountInfo[%v]\n",
-		productionUrl, ki_package.GetCredential().AppKey, ki_package.GetCredential().AppSecret, accountInfo)
+	systemtradinglog.Default().Info("Initialize Korea investment trading", "ProductionUrl", productionUrl,
+		"AppKey", ki_package.GetCredential().AppKey, "AppSecret", ki_package.GetCredential().AppSecret,
+		"AccountInfo", accountInfo)
 }

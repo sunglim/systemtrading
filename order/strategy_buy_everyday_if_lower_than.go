@@ -20,7 +20,7 @@ func buyLowerOrder(codePrices []StrategryOrder, logger *log.Logger) {
 			continue
 		}
 
-		logger.Println("name", krxcode.CodeToName(codePrice.Code), "orderPrice",
+		logger.Info("buy lower", "name", krxcode.CodeToName(codePrice.Code), "orderPrice",
 			codePrice.Price, "currentPrice", currentPriceInt)
 		BuyLowerOrderCash(codePrice, logger)
 	}
@@ -37,7 +37,7 @@ func BuyLowerOrderCash(code StrategryOrder, logger *log.Logger) {
 		return
 	}
 
-	logger.Printf("An order is successfully sent [%v]", response)
+	logger.Info("An order is successfully sent", "response", response)
 }
 
 type StrategryOrder = CodeAndQuantityAndPrice

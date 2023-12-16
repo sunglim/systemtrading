@@ -53,7 +53,7 @@ func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) orderCash(ba
 		return
 	}
 
-	logger.Println("Gain is above 3%", "name", balanceResponseOutput.PrdtName, "gain", gain_percentage)
+	logger.Info("Gain is above 3%", "name", balanceResponseOutput.PrdtName, "gain", gain_percentage)
 
 	//code := balanceResponseOutput.PdNo
 	//numbersToSell := getQuantityByCode(code, codeQuantity)
@@ -72,6 +72,6 @@ func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) orderCash(ba
 		return
 	}
 
-	logger.Println("Sell order is successfully sent", "name", balanceResponseOutput.PrdtName, "response", response.Msg1)
+	logger.Info("Sell order is successfully sent", "name", balanceResponseOutput.PrdtName, "response", response.Msg1)
 	*/
 }
