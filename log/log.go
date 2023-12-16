@@ -2,6 +2,7 @@ package log
 
 import (
 	"log"
+	"log/slog"
 
 	"os"
 )
@@ -10,12 +11,31 @@ func CreateLogger() *Logger {
 	return &Logger{
 		// By default, set as nil.
 		telegramLogger: nil,
-		nativeLogger:   log.New(os.Stdout, "tradingbot", log.Lshortfile)}
+		nativeLogger:   log.New(os.Stdout, "tradingbot", log.Lshortfile),
+		slogLogger:     slog.New(slog.NewTextHandler(os.Stderr, nil)),
+	}
 }
 
+// Logger is a main logger struct that internally includes sub-loggers.
 type Logger struct {
+	slogLogger     *slog.Logger
 	telegramLogger *log.Logger
 	nativeLogger   *log.Logger
+}
+
+// Info logs at LevelInfo.
+func (l *Logger) Info(msg string, args ...any) {
+	l.slogLogger.Info(msg, args...)
+}
+
+// Warn logs at LevelWarn.
+func (l *Logger) Warn(msg string, args ...any) {
+	l.slogLogger.Warn(msg, args...)
+}
+
+// Error logs at LevelError.
+func (l *Logger) Error(msg string, args ...any) {
+	l.slogLogger.Error(msg, args...)
 }
 
 func (l Logger) Printf(format string, v ...any) {
