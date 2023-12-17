@@ -33,7 +33,7 @@ func BuyLowerOrderCash(code StrategryOrder, logger *log.Logger) {
 		koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken()).Call()
 	if response != nil && !response.IsSuccess() {
-		logger.Printf("orde failed with error[%s]", response.Msg1)
+		logger.Error("orde failed with error[%s]", response.Msg1)
 		return
 	}
 
@@ -44,7 +44,6 @@ type StrategryOrder = CodeAndQuantityAndPrice
 
 func StrategryBuyEveryDayIfLowerThan(buytime string, codePrices []StrategryOrder) *gocron.Scheduler {
 	logger := log.Default()
-	logger.SetPrefix("[Buy if average is lower than] ")
 
 	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(buyLowerOrder, codePrices, logger)

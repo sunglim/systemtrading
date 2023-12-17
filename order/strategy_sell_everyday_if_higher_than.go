@@ -35,7 +35,7 @@ func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) order(codeQu
 
 	balanceResponse, err := api.Call()
 	if (balanceResponse != nil && !balanceResponse.IsSucess()) || err != nil {
-		logger.Printf("Getting blance failed" + err.Error())
+		logger.Error("Getting blance failed" + err.Error())
 		return
 	}
 
