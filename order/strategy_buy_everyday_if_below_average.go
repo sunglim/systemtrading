@@ -20,7 +20,7 @@ func order(codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) 
 
 	balanceResponse, err := api.Call()
 	if (balanceResponse != nil && !balanceResponse.IsSucess()) || err != nil {
-		logger.Printf("Getting blance failed" + err.Error())
+		logger.Error("Getting blance failed" + err.Error())
 		return
 	}
 
@@ -51,8 +51,8 @@ func orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQua
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 	response := api.Call()
 	if !response.IsSuccess() {
-		logger.Printf("Api order cash failed from the strategry")
-		logger.Printf("Error[%s]", response.Msg1)
+		logger.Error("Api order cash failed from the strategry")
+		logger.Error("Error[%s]", response.Msg1)
 		return
 	}
 
@@ -63,7 +63,6 @@ type StrategryBuyEveryDayIfBelowOrder = CodeAndQuantity
 
 func StrategryBuyEveryDayIfBelowAverage(buytime string, codeQuantity []StrategryBuyEveryDayIfBelowOrder) *gocron.Scheduler {
 	logger := log.Default()
-	logger.SetPrefix("[Buy if average is below] ")
 
 	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(order, codeQuantity, logger)
