@@ -37,7 +37,7 @@ func BuyLowerOrderCash(code StrategryOrder, logger *log.Logger) {
 		return
 	}
 
-	logger.Info("An order is successfully sent", "response", response)
+	logger.Info("BUY", "response", response)
 }
 
 type StrategryOrder = CodeAndQuantityAndPrice

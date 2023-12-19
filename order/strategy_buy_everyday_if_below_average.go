@@ -56,7 +56,7 @@ func orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQua
 		return
 	}
 
-	logger.Info("An order is successfully sent", "name", balanceResponseOutput.PrdtName, "response", response.Msg1)
+	logger.Info("BUY", "name", balanceResponseOutput.PrdtName)
 }
 
 type StrategryBuyEveryDayIfBelowOrder = CodeAndQuantity

@@ -29,6 +29,8 @@ func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) Start() *goc
 }
 
 func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) order(codeQuantityPrice []StrategrySellEveryDayIfBelowOrder, logger *log.Logger) {
+	logger.Info("StrategySellEveryDayIfAverageIsHigherThanAveragePercentage is triggered")
+
 	api := ki.NewApiInquireBalance(koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
