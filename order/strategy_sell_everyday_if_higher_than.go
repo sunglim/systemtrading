@@ -22,14 +22,15 @@ type StrategySellEveryDayIfAverageIsHigherThanAveragePercentage struct {
 
 func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) Start() *gocron.Scheduler {
 	s := NewSeoulScheduler().Every(1).Day().At(f.buyTime)
-	s.Do(f.order, f.codeQuantityPrice, log.Default())
+	logger := log.Default().With("name", "StrategySellEveryDayIfAverageIsHigherThanAveragePercentage")
+	s.Do(f.order, f.codeQuantityPrice, logger)
 	s.StartAsync()
 
 	return s
 }
 
 func (f StrategySellEveryDayIfAverageIsHigherThanAveragePercentage) order(codeQuantityPrice []StrategrySellEveryDayIfBelowOrder, logger *log.Logger) {
-	logger.Info("StrategySellEveryDayIfAverageIsHigherThanAveragePercentage is triggered")
+	logger.Info("triggered")
 
 	api := ki.NewApiInquireBalance(koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),

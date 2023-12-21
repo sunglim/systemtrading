@@ -62,7 +62,7 @@ func orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQua
 type StrategryBuyEveryDayIfBelowOrder = CodeAndQuantity
 
 func StrategryBuyEveryDayIfBelowAverage(buytime string, codeQuantity []StrategryBuyEveryDayIfBelowOrder) *gocron.Scheduler {
-	logger := log.Default()
+	logger := log.Default().With("name", "StrategryBuyEveryDayIfBelowAverage")
 
 	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(order, codeQuantity, logger)

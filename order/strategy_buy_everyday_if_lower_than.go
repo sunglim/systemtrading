@@ -43,7 +43,7 @@ func BuyLowerOrderCash(code StrategryOrder, logger *log.Logger) {
 type StrategryOrder = CodeAndQuantityAndPrice
 
 func StrategryBuyEveryDayIfLowerThan(buytime string, codePrices []StrategryOrder) *gocron.Scheduler {
-	logger := log.Default()
+	logger := log.Default().With("name", "StrategryBuyEveryDayIfLowerThan")
 
 	s := NewSeoulScheduler().Every(1).Day().At(buytime)
 	s.Do(buyLowerOrder, codePrices, logger)

@@ -42,6 +42,11 @@ func (l *Logger) Error(msg string, args ...any) {
 	}
 }
 
+func (l *Logger) With(args ...any) *Logger {
+	sloger := l.slogLogger.With(args...)
+	return &Logger{slogLogger: sloger, telegramLogger: l.telegramLogger}
+}
+
 var std = CreateLogger()
 
 func Default() *Logger {
