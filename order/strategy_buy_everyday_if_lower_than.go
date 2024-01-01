@@ -1,6 +1,7 @@
 package order
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/go-co-op/gocron"
@@ -33,7 +34,7 @@ func BuyLowerOrderCash(code StrategryOrder, logger *log.Logger) {
 		koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken()).Call()
 	if response != nil && !response.IsSuccess() {
-		logger.Error("orde failed with error[%s]", response.Msg1)
+		logger.Error(fmt.Sprintf("order failed with error[%s]", response.Msg1))
 		return
 	}
 
