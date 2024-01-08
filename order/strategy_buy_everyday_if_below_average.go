@@ -1,7 +1,6 @@
 package order
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/go-co-op/gocron"
@@ -52,7 +51,7 @@ func orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQua
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 	response := api.Call()
 	if !response.IsSuccess() {
-		logger.Error(fmt.Sprintf("Api order cash failed from the strategry: %s", response.Msg1))
+		logger.Error("api order cash failed", "code", code, "quantity", codeQuantity, "msg", response.Msg1, "msgcode", response.MsgCd)
 		return
 	}
 
