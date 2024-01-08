@@ -69,8 +69,9 @@ func (api ApiOrderCash) buildRequestBody() *bytes.Buffer {
 
 type ApiOrderCashResponse struct {
 	// is success.
-	RtCd string `json:"rt_cd"`
-	Msg1 string `json:"msg1"`
+	RtCd  string `json:"rt_cd"`
+	Msg1  string `json:"msg1"`
+	MsgCd string `json:"msg_cd"`
 	// response time
 	ResponseTime time.Time
 }
