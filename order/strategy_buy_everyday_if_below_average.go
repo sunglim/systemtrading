@@ -43,15 +43,15 @@ func orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQua
 	}
 
 	code := balanceResponseOutput.PdNo
-	orderAmount := getQuantityByCode(code, codeQuantity)
+	orderQuantity := getQuantityByCode(code, codeQuantity)
 
-	api := ki.NewApiOrderCash(code, orderAmount,
+	api := ki.NewApiOrderCash(code, orderQuantity,
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetCredential(),
 		koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 	response := api.Call()
 	if !response.IsSuccess() {
-		logger.Error("api order cash failed", "code", code, "quantity", codeQuantity, "msg", response.Msg1, "msgcode", response.MsgCd)
+		logger.Error("api order cash failed", "code", code, "quantity", orderQuantity, "msg", response.Msg1, "msgcode", response.MsgCd)
 		return
 	}
 
