@@ -10,15 +10,18 @@ import (
 func CreateLogger() *Logger {
 	return &Logger{
 		// By default, set as nil.
-		telegramLogger: nil,
-		slogLogger:     slog.New(slog.NewTextHandler(os.Stderr, nil)),
+		telegramLogger:     nil,
+		slogTelegramLogger: nil,
+		// telegram handler
+		slogLogger: slog.New(slog.NewTextHandler(os.Stderr, nil)),
 	}
 }
 
 // Logger is a main logger struct that internally includes sub-loggers.
 type Logger struct {
-	slogLogger     *slog.Logger
-	telegramLogger *log.Logger
+	slogLogger         *slog.Logger
+	slogTelegramLogger *slog.Logger
+	telegramLogger     *log.Logger
 }
 
 // Info logs at LevelInfo.
@@ -32,13 +35,20 @@ func (l *Logger) Warn(msg string, args ...any) {
 	if l.telegramLogger != nil {
 		l.telegramLogger.Println(msg)
 	}
+	if l.slogTelegramLogger != nil {
+		l.slogTelegramLogger.Warn(msg, args...)
+	}
 }
 
 // Error logs at LevelError.
 func (l *Logger) Error(msg string, args ...any) {
 	l.slogLogger.Error(msg, args...)
 	if l.telegramLogger != nil {
+		// telegram logger doesn't receive args
 		l.telegramLogger.Println(msg)
+	}
+	if l.slogTelegramLogger != nil {
+		l.slogTelegramLogger.Error(msg, args...)
 	}
 }
 
@@ -60,7 +70,10 @@ func SetTelegramLoggerByToken(telegramToken string, telegramChatId int64) {
 
 	telegramWriter := CreateTelegramWriter(telegramToken, telegramChatId)
 	if telegramWriter != nil {
+		// Deprecated: old logger using 'log' package is deprecated.
 		SetTelegramLogger(log.New(telegramWriter, "", log.Ldate|log.Ltime))
+
+		std.slogTelegramLogger = slog.New(slog.NewTextHandler(telegramWriter, nil))
 	}
 }
 
