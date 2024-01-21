@@ -7,9 +7,8 @@ import (
 	"github.com/sunglim/systemtrading/log"
 	"github.com/sunglim/systemtrading/order/koreainvestment"
 	ki "github.com/sunglim/systemtrading/pkg/koreainvestment"
+	"k8s.io/apimachinery/pkg/util/sets"
 )
-
-// Buy single stock every day at 10 am.
 
 func order(codeQuantity []StrategryBuyEveryDayIfBelowOrder, logger *log.Logger) {
 	logger.Info("StrategryBuyEveryDayIfBelowOrder is triggered")
@@ -50,7 +49,7 @@ func orderCash(balanceResponseOutput ki.ApiInquireBalanceResponseOutput, codeQua
 		koreainvestment.GetDefaultAccount(),
 		koreainvestment.GetDefaultKoreaInvestmentInstance().GetBearerAccessToken())
 	response := api.Call()
-	if !response.IsSuccess() {
+	if !response.IsSuccess() && !IsAllowedError(response.MsgCd) {
 		logger.Error("api order cash failed", "code", code, "quantity", orderQuantity, "msg", response.Msg1, "msgcode", response.MsgCd)
 		return
 	}
@@ -68,4 +67,8 @@ func StrategryBuyEveryDayIfBelowAverage(buytime string, codeQuantity []Strategry
 	s.StartAsync()
 
 	return s
+}
+
+func IsAllowedError(errorCode string) bool {
+	return sets.New("APBK0919", "APBK0986").Has(errorCode)
 }
