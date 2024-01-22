@@ -69,6 +69,6 @@ func StrategryBuyEveryDayIfBelowAverage(buytime string, codeQuantity []Strategry
 	return s
 }
 
-func IsAllowedError(errorCode string) bool {
-	return sets.New("APBK0919", "APBK0986").Has(errorCode)
+func IsAllowedError(errorCode ki.ErrorCode) bool {
+	return sets.New(ki.OrderQuantityErrorCode, ki.OrderClosingTimeErrorCode).Has(errorCode)
 }
